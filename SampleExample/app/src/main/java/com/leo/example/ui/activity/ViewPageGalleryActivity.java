@@ -1,0 +1,71 @@
+package com.leo.example.ui.activity;
+
+import android.content.Context;
+import android.support.v4.view.ViewPager;
+
+import com.leo.example.R;
+import com.leo.example.callback.DataCallBack;
+import com.leo.example.info.SubjectsInfo;
+import com.leo.example.ui.adapter.page.GalleryPageAdapter;
+import com.leo.example.ui.dialog.LoadingDialog;
+import com.leo.example.util.DouBanApiUtil;
+import com.leo.example.util.ToastUtil;
+import com.leo.example.util.ZoomOutPageTransformer;
+import com.leolibrary.ui.base.activity.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * Viewpager 实现Gallery画廊效果
+ **/
+public class ViewPageGalleryActivity extends BaseActivity {
+    ViewPager viewPager;
+    private GalleryPageAdapter adapter;
+    private ArrayList<SubjectsInfo> list = new ArrayList<>();
+
+    @Override
+    public void beforInitView() {
+        setContentView(R.layout.activity_viewpager_gallery);
+    }
+
+    @Override
+    public void initView() {
+        //初始化ViewPager
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        adapter = new GalleryPageAdapter(ViewPageGalleryActivity.this, list);
+        viewPager.setOffscreenPageLimit(5);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+    }
+
+    @Override
+    public void initData() {
+        LoadData(this);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    /**
+     * 获取豆瓣Api数据
+     */
+    private void LoadData(final Context context) {
+        DouBanApiUtil.LoadRepoData(this, new DataCallBack<List<SubjectsInfo>>() {
+            @Override
+            public void onSuccess(List<SubjectsInfo> subjectsInfos) {
+                list.addAll(subjectsInfos);
+                viewPager.setAdapter(adapter);
+                LoadingDialog.hideLoadding();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                ToastUtil.showMessage(context, t.getMessage());
+            }
+        });
+    }
+
+}

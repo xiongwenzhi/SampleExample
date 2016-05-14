@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LeoLibrary/LeoLibrary.iml" filepath="$PROJECT_DIR$/LeoLibrary/LeoLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SampleExample.iml" filepath="$PROJECT_DIR$/SampleExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidingTabLayoutLib/SlidingTabLayoutLib.iml" filepath="$PROJECT_DIR$/SlidingTabLayoutLib/SlidingTabLayoutLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>
