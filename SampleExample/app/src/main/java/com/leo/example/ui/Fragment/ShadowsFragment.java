@@ -1,8 +1,6 @@
 package com.leo.example.ui.Fragment;
 
-import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.leo.example.R;
@@ -45,6 +43,7 @@ public class ShadowsFragment extends BaseFragment {
         rvShadow = (RecyclerView) getView().findViewById(R.id.rv_shadow);
         shadowListAdapter = new ShadowListAdapter(getContext(), postion);
         rvShadow.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        rvShadow.setAdapter(shadowListAdapter);
     }
 
     @Override
@@ -52,9 +51,7 @@ public class ShadowsFragment extends BaseFragment {
         DouBanApiUtil.LoadRepoData(getContext(), new DataCallBack<List<SubjectsInfo>>() {
             @Override
             public void onSuccess(final List<SubjectsInfo> subjectsInfos) {
-                ToastUtil.showMessage(getContext(), subjectsInfos.size() + "");
                 shadowListAdapter.addAll(subjectsInfos);
-                rvShadow.setAdapter(shadowListAdapter);
                 shadowListAdapter.notifyDataSetChanged();
             }
 

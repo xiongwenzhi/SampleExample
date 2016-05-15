@@ -28,7 +28,7 @@ public class ShadowActivity extends BaseActivity {
         shadowPageAdapter = new ShadowPageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(shadowPageAdapter);
         tabLayout.setCustomTabView(R.layout.item_tab, android.R.id.text1);
-        tabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimary));
+        tabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
         tabLayout.setDistributeEvenly(true);
         tabLayout.setViewPager(viewPager);
     }

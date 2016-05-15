@@ -3,7 +3,5 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="line_bg">#616060</color>
-    <color name="pressed_true">#bfbfbf</color>
-    <color name="white">#ffffff</color>
+    <color name="toolar_text_color">#ffffff</color>
 </resources>
