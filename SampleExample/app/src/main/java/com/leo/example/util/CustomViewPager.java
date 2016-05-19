@@ -81,11 +81,11 @@ import java.util.List;
  * <p>For more information about how to use ViewPager, read <a
  * href="{@docRoot}training/implementing-navigation/lateral.html">Creating Swipe Views with
  * Tabs</a>.</p>
- * <p/>
+ * <p>
  * <p>Below is a more complicated example of ViewPager, using it in conjunction
  * with {@link android.app.ActionBar} tabs.  You can find other examples of using
  * ViewPager in the API 4+ Support Demos and API 13+ Support Demos sample code.
- * <p/>
+ * <p>
  * {@sample development/samples/Support13Demos/src/com/example/android/supportv13/app/ActionBarTabsPager.java
  * complete}
  */
@@ -2437,13 +2437,13 @@ public class CustomViewPager extends ViewGroup {
 
     /**
      * Start a fake drag of the pager.
-     * <p/>
+     * <p>
      * <p>A fake drag can be useful if you want to synchronize the motion of the ViewPager
      * with the touch scrolling of another view, while still letting the ViewPager
      * control the snapping motion and fling behavior. (e.g. parallax-scrolling tabs.)
      * Call {@link #fakeDragBy(float)} to simulate the actual drag motion. Call
      * {@link #endFakeDrag()} to complete the fake drag and fling as necessary.
-     * <p/>
+     * <p>
      * <p>During a fake drag the ViewPager will ignore all touch events. If a real drag
      * is already in progress, this method will return false.
      *
@@ -3084,7 +3084,6 @@ public class CustomViewPager extends ViewGroup {
         @Override
         public int compare(View lhs, View rhs) {
             final LayoutParams llp = (LayoutParams) lhs.getLayoutParams();
-            final LayoutParams rlp = (LayoutParams) rhs.getLayoutParams();
             if (llp.position == getCurrentItem()) {
                 return -1;
             } else if (llp.position < getCurrentItem()) {

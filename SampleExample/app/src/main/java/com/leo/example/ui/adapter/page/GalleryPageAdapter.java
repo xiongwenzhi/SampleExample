@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.leo.example.R;
 import com.leo.example.info.SubjectsInfo;
+import com.leolibrary.ui.base.adapter.BasePageAdapter;
 import com.leolibrary.utils.image.PhotoLoader;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by leo on 16/5/7.
  */
-public class GalleryPageAdapter extends PagerAdapter {
+public class GalleryPageAdapter extends BasePageAdapter {
     private ArrayList<SubjectsInfo> subjectsInfos;
     private Context context;
     private int layoutId;
@@ -29,19 +30,27 @@ public class GalleryPageAdapter extends PagerAdapter {
         this.layoutId = layoutId;
     }
 
+    public ArrayList<SubjectsInfo> getSubjectsInfos() {
+        return subjectsInfos;
+    }
+
     @Override
     public int getCount() {
-        return subjectsInfos.size();
+        if (subjectsInfos.size() <= 0) {
+            return 0;
+        }
+        return Integer.MAX_VALUE;
     }
 
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        int pos = position % subjectsInfos.size();
+        SubjectsInfo subjectsInfo = subjectsInfos.get(pos);
         View view = LayoutInflater.from(context).inflate(layoutId, null);
-        view.setTag(position);
+        view.setTag(pos);
         ImageView imageView = (ImageView) view.findViewById(R.id.iv_movie);
         TextView title = (TextView) view.findViewById(R.id.tv_title);
-        SubjectsInfo subjectsInfo = subjectsInfos.get(position);
         title.setText(subjectsInfo.getTitle());
         PhotoLoader.display(container.getContext(), imageView, subjectsInfo.getImages().getLarge(), context.getResources().getDrawable(R.mipmap.ic_loading));
         container.addView(view);
@@ -60,4 +69,8 @@ public class GalleryPageAdapter extends PagerAdapter {
         container.removeView(view);
     }
 
+    @Override
+    public int getPageDataSize() {
+        return subjectsInfos == null ? 0 : subjectsInfos.size();
+    }
 }

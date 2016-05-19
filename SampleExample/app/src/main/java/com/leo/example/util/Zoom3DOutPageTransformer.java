@@ -5,6 +5,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leo.example.ui.adapter.page.GalleryPageAdapter;
+import com.leolibrary.ui.base.adapter.BasePageAdapter;
+import com.nineoldandroids.view.ViewHelper;
+
 
 /**
  * Created by leo on 16/5/18.
@@ -19,9 +23,13 @@ public class Zoom3DOutPageTransformer implements CustomViewPager.PageTransformer
     private float itemWidth = 0;
     private float itemHeight = 0;
     private boolean isSetLayouParams = false;
+    private float translation;
+    private int currentItem = 0;
+    private BasePageAdapter adapter;
 
-    public Zoom3DOutPageTransformer(CustomViewPager viewPager) {
+    public Zoom3DOutPageTransformer(CustomViewPager viewPager, BasePageAdapter adapter) {
         this.viewPager = viewPager;
+        this.adapter = adapter;
         init();
     }
 
@@ -30,36 +38,42 @@ public class Zoom3DOutPageTransformer implements CustomViewPager.PageTransformer
         windowHeight = SystemUtil.getScreenHeight(viewPager.getContext());
         itemWidth = windowWidth / itemCount;
         itemHeight = windowHeight / itemCount;
+        translation = itemWidth;
+        adapter = (GalleryPageAdapter) viewPager.getAdapter();
         initViewPagerLayoutParams();
     }
 
     public void transformPage(View view, float position) {
-//        Log.e("transformPage:", viewPager.getCurrentItem() + "");
-//        Log.e("transformPage:View", view.getTag() + "");
-//        Log.e("transformPage:View:pageWidth", view.getWidth() + "");
-//        Log.e("transformPage:View:pageHeight", view.getHeight() + "");
+        Log.e("transformPage:View:" + view.getTag(), position + "");
+        Log.e("transformPage:cut:" + viewPager.getCurrentItem(), position + "");
+        currentItem = viewPager.getCurrentItem() % adapter.getPageDataSize();
+        if (position > 0.5) {
+            view.setAlpha(position);
+        }
         setScaleView(view);
     }
 
     private void setScaleView(View view) {
         int postion = (int) view.getTag();
-        float translation = itemWidth * 0.7f;
-        if (postion == viewPager.getCurrentItem()) {
-            setViewState(view, 1.5f, 0f, 0f, 1f);
-        } else if (postion == viewPager.getCurrentItem() - 1) {
-            setViewState(view, 1.1f, ROTATION, translation, ALPHA);
-        } else if (postion == viewPager.getCurrentItem() + 1) {
-            setViewState(view, 1.1f, -ROTATION, -translation, ALPHA);
-        } else if (postion == viewPager.getCurrentItem() - 2) {
-            setViewState(view, 1f, ROTATION, (float) (translation + translation * 1.1), ALPHA);
-        } else if (postion == viewPager.getCurrentItem() + 2) {
-            setViewState(view, 1f, -ROTATION, -(float) (translation + translation * 1.1), ALPHA);
-        } else if (postion == viewPager.getCurrentItem() - 3) {
-            setViewState(view, 0.9f, ROTATION, translation, ALPHA);
-        } else if (postion == viewPager.getCurrentItem() + 3) {
-            setViewState(view, 0.9f, -ROTATION, -translation, ALPHA);
+        if (postion == currentItem) {
+            setViewState(view, 1f, 0f, 0f, 1f);
+        } else if (postion == currentItem - 1) {
+            setViewState(view, 0.8f, ROTATION, translation, 1f);
+        } else if (postion == currentItem + 1) {
+            setViewState(view, 0.8f, -ROTATION, -translation, 1f);
+        } else if (postion == currentItem - 2) {
+            setViewState(view, 0.6f, ROTATION, (float) (translation + translation * 1.1), ALPHA);
+        } else if (postion == currentItem + 2) {
+            setViewState(view, 0.6f, -ROTATION, -(float) (translation + translation * 1.1), ALPHA);
+        } else if (postion == currentItem - 3) {
+            setViewState(view, 0.4f, ROTATION, translation, ALPHA);
+        } else if (postion == currentItem + 3) {
+            setViewState(view, 0.4f, -ROTATION, -translation, ALPHA);
+        } else if (postion + 1 == adapter.getPageDataSize()) {
+            setViewState(view, 0.8f, ROTATION, translation, 1f);
+        } else {
+            setViewState(view, 0.8f, -ROTATION, -translation, 1f);
         }
-        Log.e("setScaleView:", (postion % itemCount) + "");
     }
 
 
@@ -73,8 +87,6 @@ public class Zoom3DOutPageTransformer implements CustomViewPager.PageTransformer
 
 
     private void initViewPagerLayoutParams() {
-//        Log.e("transformPage:viewPager:pageWidth", viewPager.getWidth() + "");
-//        Log.e("transformPage:viewPager:pageHeight", viewPager.getHeight() + "");
         if (isSetLayouParams) {
             return;
         }

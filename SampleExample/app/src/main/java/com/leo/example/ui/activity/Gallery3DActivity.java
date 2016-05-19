@@ -1,6 +1,7 @@
 package com.leo.example.ui.activity;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.view.CustomViewPager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,11 +37,12 @@ public class Gallery3DActivity extends BaseActivity {
     @Override
     public void initView() {
         //初始化ViewPager
-        ll_layout= (LinearLayout) findViewById(R.id.ll_layout);
+        ll_layout = (LinearLayout) findViewById(R.id.ll_layout);
         viewPager = (CustomViewPager) findViewById(R.id.view_pager);
         adapter = new GalleryPageAdapter(list, Gallery3DActivity.this, R.layout.item_3d_gallery_view);
         viewPager.setOffscreenPageLimit(5);
-        viewPager.setPageTransformer(true, new Zoom3DOutPageTransformer(viewPager));
+        viewPager.setAdapter(adapter);
+        viewPager.setPageTransformer(true, new Zoom3DOutPageTransformer(viewPager, adapter));
     }
 
     @Override
@@ -64,9 +66,9 @@ public class Gallery3DActivity extends BaseActivity {
     private void LoadData(final Context context) {
         DouBanApiUtil.LoadRepoData(this, new DataCallBack<List<SubjectsInfo>>() {
             @Override
-            public void onSuccess(List<SubjectsInfo> subjectsInfos) {
+            public void onSuccess(final List<SubjectsInfo> subjectsInfos) {
                 list.addAll(subjectsInfos);
-                viewPager.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 LoadingDialog.hideLoadding();
             }
 
