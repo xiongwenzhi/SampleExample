@@ -1,7 +1,7 @@
 package com.leo.example.httpservice;
 
 
-import com.leo.example.info.ListDTO;
+import com.leo.example.dto.ListDTO;
 import com.leo.example.info.SubjectsInfo;
 
 import retrofit2.Call;

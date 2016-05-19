@@ -1,4 +1,4 @@
-package com.leo.example.info;
+package com.leo.example.dto;
 
 import com.google.gson.annotations.SerializedName;
 

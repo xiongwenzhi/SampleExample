@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.leolibrary.callback.ListCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
  * Created by leo on 16/5/14.
  * 通用的adapter
  */
-public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseListAdapter.DataHodler> {
+public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseListAdapter.DataHodler> implements ListCallback<T> {
     private List<T> data;
     private Context context;
 
@@ -32,7 +34,7 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseListAd
      */
     @Override
     public BaseListAdapter.DataHodler onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new DataHodler(LayoutInflater.from(context).inflate(getItemLayoutId(), parent,false));
+        return new DataHodler(LayoutInflater.from(context).inflate(getItemLayoutId(), parent, false));
     }
 
     @Override
@@ -46,30 +48,40 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseListAd
         return data.size();
     }
 
+    @Override
     public T get(int position) {
         return data.get(position);
     }
 
+    @Override
     public void add(T t) {
         data.add(t);
     }
 
+    @Override
     public void add(int position, T t) {
         data.add(position, t);
     }
 
+    @Override
     public void addAll(List<T> allData) {
         this.data.addAll(allData);
     }
 
+    @Override
     public void remove(T t) {
         data.remove(t);
     }
 
+    @Override
     public void remove(int position) {
         data.remove(position);
     }
 
+    @Override
+    public int size() {
+        return data.size();
+    }
 
     protected abstract int getItemLayoutId();
 

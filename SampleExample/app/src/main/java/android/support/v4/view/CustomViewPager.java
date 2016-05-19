@@ -1014,7 +1014,7 @@ public class CustomViewPager extends ViewGroup {
             mAdapter.finishUpdate(this);
         }
         Collections.sort(mItems, COMPARATOR);
-        Collections.sort(mItems);
+//        Collections.sort(mItems);
         if (needPopulate) {
             // Reset our known page widths; populate will recompute them.
             final int childCount = getChildCount();

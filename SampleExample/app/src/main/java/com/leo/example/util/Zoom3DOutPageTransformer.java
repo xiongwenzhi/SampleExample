@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leo.example.R;
 import com.leo.example.ui.adapter.page.GalleryPageAdapter;
+import com.leolibrary.callback.ListCallback;
 import com.leolibrary.ui.base.adapter.BasePageAdapter;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -17,7 +19,7 @@ public class Zoom3DOutPageTransformer implements CustomViewPager.PageTransformer
     private CustomViewPager viewPager;
     private int windowWidth = 0;
     private int windowHeight = 0;
-    private float ALPHA = 0.7f;
+    private float ALPHA = 0.1f;
     private float ROTATION = 28f;
     private int itemCount = 3;
     private float itemWidth = 0;
@@ -25,11 +27,11 @@ public class Zoom3DOutPageTransformer implements CustomViewPager.PageTransformer
     private boolean isSetLayouParams = false;
     private float translation;
     private int currentItem = 0;
-    private BasePageAdapter adapter;
+    private ListCallback callback;
 
-    public Zoom3DOutPageTransformer(CustomViewPager viewPager, BasePageAdapter adapter) {
+    public Zoom3DOutPageTransformer(CustomViewPager viewPager, ListCallback callback) {
         this.viewPager = viewPager;
-        this.adapter = adapter;
+        this.callback = callback;
         init();
     }
 
@@ -39,40 +41,44 @@ public class Zoom3DOutPageTransformer implements CustomViewPager.PageTransformer
         itemWidth = windowWidth / itemCount;
         itemHeight = windowHeight / itemCount;
         translation = itemWidth;
-        adapter = (GalleryPageAdapter) viewPager.getAdapter();
         initViewPagerLayoutParams();
     }
 
     public void transformPage(View view, float position) {
         Log.e("transformPage:View:" + view.getTag(), position + "");
         Log.e("transformPage:cut:" + viewPager.getCurrentItem(), position + "");
-        currentItem = viewPager.getCurrentItem() % adapter.getPageDataSize();
-        if (position > 0.5) {
-            view.setAlpha(position);
+        currentItem = viewPager.getCurrentItem() % callback.size();
+        if (position <= 1) {
+            if (position < 0) {
+                setScaleView(view, position * (180 - ROTATION), -position*(1-ALPHA));
+            } else {
+                setScaleView(view, -position * (180 - ROTATION), position*(1-ALPHA));
+            }
+        } else {
+            setScaleView(view, -position * (180 - ROTATION), position*(1-ALPHA));
         }
-        setScaleView(view);
     }
 
-    private void setScaleView(View view) {
+    private void setScaleView(View view, float r, float alpha) {
         int postion = (int) view.getTag();
         if (postion == currentItem) {
-            setViewState(view, 1f, 0f, 0f, 1f);
+            setViewState(view, 1f, 0, 0f, 1f);
         } else if (postion == currentItem - 1) {
-            setViewState(view, 0.8f, ROTATION, translation, 1f);
+            setViewState(view, 0.8f, r, translation, alpha);
         } else if (postion == currentItem + 1) {
-            setViewState(view, 0.8f, -ROTATION, -translation, 1f);
+            setViewState(view, 0.8f, -r, -translation, alpha);
         } else if (postion == currentItem - 2) {
-            setViewState(view, 0.6f, ROTATION, (float) (translation + translation * 1.1), ALPHA);
+            setViewState(view, 0.6f, r, translation * 2, alpha);
         } else if (postion == currentItem + 2) {
-            setViewState(view, 0.6f, -ROTATION, -(float) (translation + translation * 1.1), ALPHA);
+            setViewState(view, 0.6f, -r, -translation * 2, alpha);
         } else if (postion == currentItem - 3) {
-            setViewState(view, 0.4f, ROTATION, translation, ALPHA);
+            setViewState(view, 0.4f, r, translation, alpha);
         } else if (postion == currentItem + 3) {
-            setViewState(view, 0.4f, -ROTATION, -translation, ALPHA);
-        } else if (postion + 1 == adapter.getPageDataSize()) {
-            setViewState(view, 0.8f, ROTATION, translation, 1f);
+            setViewState(view, 0.4f, -r, -translation, alpha);
+        } else if (postion + 1 == callback.size()) {
+            setViewState(view, 0.8f, r, translation, alpha);
         } else {
-            setViewState(view, 0.8f, -ROTATION, -translation, 1f);
+            setViewState(view, 0.8f, -r, -translation, alpha);
         }
     }
 
