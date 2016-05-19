@@ -1,21 +1,23 @@
 package com.leo.example.info;
 
-import android.app.Activity;
-
-import com.leo.example.enums.ActivityType;
-
 /**
  * Created by leo on 16/5/14.
  */
 public class ActivityInfo {
     private String name;
-    private ActivityType type;
-    private String className;
+    private Class mClass;
 
-    public ActivityInfo(String name, ActivityType type, String className) {
+    public ActivityInfo(String name, Class mClass) {
         this.name = name;
-        this.type = type;
-        this.className = className;
+        this.mClass = mClass;
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityInfo{" +
+                "name='" + name + '\'' +
+                ", mClass=" + mClass +
+                '}';
     }
 
     public String getName() {
@@ -26,28 +28,12 @@ public class ActivityInfo {
         this.name = name;
     }
 
-    public ActivityType getType() {
-        return type;
+    public Class getmClass() {
+        return mClass;
     }
 
-    public void setType(ActivityType type) {
-        this.type = type;
+    public void setmClass(Class mClass) {
+        this.mClass = mClass;
     }
 
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    @Override
-    public String toString() {
-        return "ActivityInfo{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", className='" + className + '\'' +
-                '}';
-    }
 }

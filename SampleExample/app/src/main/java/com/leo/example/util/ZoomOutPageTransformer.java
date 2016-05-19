@@ -49,4 +49,5 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
             view.setScaleY(defaultScale);
         }
     }
+
 }

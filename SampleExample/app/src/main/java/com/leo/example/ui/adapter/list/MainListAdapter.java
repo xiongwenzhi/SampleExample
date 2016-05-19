@@ -34,18 +34,12 @@ public class MainListAdapter extends BaseListAdapter<ActivityInfo> {
     @Override
     public void onBindDataToView(DataHodler dataHodler, ActivityInfo activityInfo) {
         ((TextView) dataHodler.getView(R.id.tv_name)).setText(activityInfo.getName());
-        ((TextView) dataHodler.getView(R.id.tv_class_name)).setText(activityInfo.getClassName());
+        ((TextView) dataHodler.getView(R.id.tv_class_name)).setText(activityInfo.getmClass().getName());
     }
 
     @Override
     public void itemOnClick(int position, ActivityInfo activityInfo) {
-        switch (activityInfo.getType()) {
-            case ViewPageGalleryMainActivity:
-                getContext().startActivity(new Intent(getContext(), ViewPageGalleryActivity.class));
-                break;
-            case ShadowActivity:
-                getContext().startActivity(new Intent(getContext(), ShadowActivity.class));
-                break;
-        }
+        getContext().startActivity(new Intent(getContext(), activityInfo.getmClass()));
     }
 }
+

@@ -21,10 +21,12 @@ import java.util.ArrayList;
 public class GalleryPageAdapter extends PagerAdapter {
     private ArrayList<SubjectsInfo> subjectsInfos;
     private Context context;
+    private int layoutId;
 
-    public GalleryPageAdapter(Context context, ArrayList<SubjectsInfo> subjectsInfos) {
-        this.context = context;
+    public GalleryPageAdapter(ArrayList<SubjectsInfo> subjectsInfos, Context context, int layoutId) {
         this.subjectsInfos = subjectsInfos;
+        this.context = context;
+        this.layoutId = layoutId;
     }
 
     @Override
@@ -35,7 +37,8 @@ public class GalleryPageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_view, null);
+        View view = LayoutInflater.from(context).inflate(layoutId, null);
+        view.setTag(position);
         ImageView imageView = (ImageView) view.findViewById(R.id.iv_movie);
         TextView title = (TextView) view.findViewById(R.id.tv_title);
         SubjectsInfo subjectsInfo = subjectsInfos.get(position);

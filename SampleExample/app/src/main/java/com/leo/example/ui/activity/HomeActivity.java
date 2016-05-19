@@ -29,8 +29,9 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        adapter.add(new ActivityInfo("Viewpager 实现Gallery画廊效果", ActivityType.ViewPageGalleryMainActivity, HomeActivity.class.getName()));
-        adapter.add(new ActivityInfo("Shape 实现CardView阴影", ActivityType.ShadowActivity, ShadowActivity.class.getName()));
+        adapter.add(new ActivityInfo("Viewpager 实现Gallery画廊效果", ViewPageGalleryActivity.class));
+        adapter.add(new ActivityInfo("Shape 实现CardView阴影", ShadowActivity.class));
+        adapter.add(new ActivityInfo("3D画廊效果实现",Gallery3DActivity.class));
         adapter.notifyDataSetChanged();
     }
 
