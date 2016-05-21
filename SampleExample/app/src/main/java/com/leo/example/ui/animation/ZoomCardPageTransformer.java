@@ -45,13 +45,7 @@ public class ZoomCardPageTransformer implements CustomViewPager.PageTransformer 
     public void transformPage(View view, float position) {
         //获取ViewPager当前显示的页面
         currentItem = viewPager.getCurrentItem();
-        if (position <= 1) {
-            //向左滑动
-            setPositionViewAnimation(view, position);
-        } else {
-            //向右滑动
-            setPositionViewAnimation(view, -position);
-        }
+        setPositionViewAnimation(view, position);
     }
 
 
@@ -76,7 +70,6 @@ public class ZoomCardPageTransformer implements CustomViewPager.PageTransformer 
         view.setScaleX(scale);
         view.setScaleY(scale);
         setViewRotation(view, location);
-        view.setAlpha(scale);//透明度直接根据缩放大小来处理
         view.setTranslationX(translationFactor);
     }
 

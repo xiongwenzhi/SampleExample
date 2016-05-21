@@ -1,5 +1,7 @@
 package com.leo.example.util;
 
+import android.util.Log;
+
 import com.leo.example.enums.PagerLocation;
 
 /**
@@ -21,8 +23,8 @@ public class PagerAnimationUtil {
             return 2.5f;
         } else if (position == currentItem - 3 || position == currentItem + 3) {//右左边相邻的第3个Item
             return 4f;
-        }else {
-            return 1f;
+        } else {
+            return 0f;
         }
     }
 
@@ -35,10 +37,15 @@ public class PagerAnimationUtil {
      * @param position viewpager滑动时 区间数值变化
      */
     public static float getTranslationSize(PagerLocation location, float min, float position) {
+        Log.e("PagerLocation:" + location, position + "");
         if (location == PagerLocation.RIGHT) {
             return -Math.min(min, min * Math.abs(position));
+        } else if (location == PagerLocation.LIFT) {
+            return Math.min(min, min * Math.abs(position));
+        } else {
+            return Math.min(min, min * Math.abs(position));
         }
-        return Math.min(min, min * Math.abs(position));
+
     }
 
     /**
