@@ -9,7 +9,7 @@ public class ImageInfo implements Serializable {
     private String imageUrl;
     private String title;
 
-    public ImageInfo(String title,String imageUrl) {
+    public ImageInfo(String title, String imageUrl) {
         this.imageUrl = imageUrl;
         this.title = title;
     }

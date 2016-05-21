@@ -32,6 +32,7 @@ public abstract class PagerViewModelAdapter<T extends LayoutId> extends PagerAda
         return context;
     }
 
+
     @Override
     public int getCount() {
         return data.size();
@@ -47,6 +48,12 @@ public abstract class PagerViewModelAdapter<T extends LayoutId> extends PagerAda
         View view = getItemView(container, position);
         container.addView(view);
         return view;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        View view = (View) object;
+        container.removeView(view);
     }
 
     public abstract View getItemView(ViewGroup container, int position);

@@ -1,4 +1,4 @@
-package com.leo.example.util;
+package com.leo.example.ui.animation;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

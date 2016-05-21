@@ -3,8 +3,10 @@ package com.leo.example.ui.adapter.list;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.leo.example.Constans;
 import com.leo.example.R;
 import com.leo.example.info.ActivityInfo;
 import com.leo.example.ui.activity.ShadowActivity;
@@ -39,7 +41,13 @@ public class MainListAdapter extends BaseListAdapter<ActivityInfo> {
 
     @Override
     public void itemOnClick(int position, ActivityInfo activityInfo) {
-        getContext().startActivity(new Intent(getContext(), activityInfo.getmClass()));
+        if (TextUtils.equals(activityInfo.getName(), "3D画廊效果实现")) {
+            Intent intent = new Intent(getContext(), activityInfo.getmClass());
+            intent.putExtra(Constans.IS_3D, true);
+            getContext().startActivity(intent);
+        } else {
+            getContext().startActivity(new Intent(getContext(), activityInfo.getmClass()));
+        }
     }
 }
 

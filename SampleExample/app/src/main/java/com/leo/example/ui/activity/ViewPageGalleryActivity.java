@@ -13,7 +13,7 @@ import com.leo.example.ui.adapter.page.GalleryPageAdapter;
 import com.leo.example.ui.dialog.LoadingDialog;
 import com.leo.example.util.DouBanApiUtil;
 import com.leo.example.util.ToastUtil;
-import com.leo.example.util.ZoomOutPageTransformer;
+import com.leo.example.ui.animation.ZoomOutPageTransformer;
 import com.leolibrary.ui.base.activity.BaseActivity;
 
 import java.util.ArrayList;

@@ -1014,7 +1014,6 @@ public class CustomViewPager extends ViewGroup {
             mAdapter.finishUpdate(this);
         }
         Collections.sort(mItems, COMPARATOR);
-//        Collections.sort(mItems);
         if (needPopulate) {
             // Reset our known page widths; populate will recompute them.
             final int childCount = getChildCount();
@@ -1234,6 +1233,7 @@ public class CustomViewPager extends ViewGroup {
                 mDrawingOrderedChildren.add(child);
             }
             Collections.sort(mDrawingOrderedChildren, sPositionComparator);
+            //对View重新排序，避免3D效果View重叠位置不正确
             Collections.sort(mDrawingOrderedChildren, positionSelectComparator);
         }
     }

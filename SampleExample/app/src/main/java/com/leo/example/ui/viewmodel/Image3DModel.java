@@ -15,16 +15,21 @@ import com.leolibrary.utils.image.PhotoLoader;
  * Created by leo on 16/5/19.
  * 图片ViewModel
  */
-public class ImageViewModel implements LayoutId {
+public class Image3DModel implements LayoutId {
     private ImageInfo imageInfo;
+    private int layoutId = -1;
 
-    public ImageViewModel(ImageInfo imageInfo) {
+    public Image3DModel(ImageInfo imageInfo, int layoutId) {
         this.imageInfo = imageInfo;
+        this.layoutId = layoutId;
     }
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_3d_gallery_view;
+        if (layoutId == -1) {
+            return R.layout.item_3d_gallery_view;
+        }
+        return layoutId;
     }
 
     @Override

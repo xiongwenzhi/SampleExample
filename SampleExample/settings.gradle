@@ -1,1 +1,1 @@
-include ':app', ':SlidingTabLayoutLib', ':LeoLibrary'
+include ':app', ':SlidingTabLayoutLib', ':CoreLibrary'
