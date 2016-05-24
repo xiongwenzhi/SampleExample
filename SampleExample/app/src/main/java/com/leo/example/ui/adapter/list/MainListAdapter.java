@@ -9,9 +9,8 @@ import android.widget.TextView;
 import com.leo.example.Constans;
 import com.leo.example.R;
 import com.leo.example.info.ActivityInfo;
-import com.leo.example.ui.activity.ShadowActivity;
-import com.leo.example.ui.activity.ViewPageGalleryActivity;
 import com.leolibrary.ui.base.adapter.BaseListAdapter;
+import com.leolibrary.ui.base.viewhodler.DataHodler;
 
 /**
  * Created by leo on 16/5/14.
@@ -40,7 +39,7 @@ public class MainListAdapter extends BaseListAdapter<ActivityInfo> {
     }
 
     @Override
-    public void itemOnClick(int position, ActivityInfo activityInfo) {
+    public void onItemClick(int position, ActivityInfo activityInfo) {
         if (TextUtils.equals(activityInfo.getName(), "3D画廊效果实现")) {
             Intent intent = new Intent(getContext(), activityInfo.getmClass());
             intent.putExtra(Constans.IS_3D, true);

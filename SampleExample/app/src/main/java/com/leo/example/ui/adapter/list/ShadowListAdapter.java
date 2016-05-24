@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.leo.example.R;
 import com.leo.example.info.SubjectsInfo;
+import com.leo.example.util.ToastUtil;
 import com.leolibrary.ui.base.adapter.BaseListAdapter;
+import com.leolibrary.ui.base.viewhodler.DataHodler;
 import com.leolibrary.utils.image.PhotoLoader;
 
 
@@ -56,5 +58,10 @@ public class ShadowListAdapter extends BaseListAdapter<SubjectsInfo> {
         } else {
             return average;
         }
+    }
+
+    @Override
+    public void onItemClick(int position, SubjectsInfo subjectsInfo) {
+        ToastUtil.showMessage(getContext(), subjectsInfo.getTitle());
     }
 }

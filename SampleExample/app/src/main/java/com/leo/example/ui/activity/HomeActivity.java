@@ -2,6 +2,7 @@ package com.leo.example.ui.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.leo.example.R;
 import com.leo.example.info.ActivityInfo;
@@ -41,4 +42,13 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    @Override
+    public int getLeftMenuIcon() {
+        return 0;
+    }
+
+    @Override
+    public View.OnClickListener getLeftMenuClick() {
+        return null;
+    }
 }

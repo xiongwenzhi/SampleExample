@@ -1,5 +1,7 @@
 package com.leolibrary.callback;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.List;
 
 /**
@@ -19,4 +21,7 @@ public interface ListCallback<T> {
     public void remove(int position);
 
     public int size();
+
+    public List<T> getData();
+
 }
