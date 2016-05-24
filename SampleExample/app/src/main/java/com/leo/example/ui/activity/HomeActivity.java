@@ -9,7 +9,9 @@ import com.leo.example.info.ActivityInfo;
 import com.leo.example.ui.adapter.list.MainListAdapter;
 import com.leolibrary.ui.base.activity.BaseActivity;
 
-
+/**
+ * 主界面
+ */
 public class HomeActivity extends BaseActivity {
     RecyclerView rvList;
     private MainListAdapter adapter;
@@ -33,6 +35,8 @@ public class HomeActivity extends BaseActivity {
         adapter.add(new ActivityInfo("Shape 实现CardView阴影", ShadowActivity.class));
         adapter.add(new ActivityInfo("3D画廊效果实现", GalleryCardActivity.class));
         adapter.add(new ActivityInfo("仿QQ天气星座卡片效果", GalleryCardActivity.class));
+        adapter.add(new ActivityInfo("支持自定义数据过滤规则的AutoCompleteTextView-Demo", AutoCompleteActivity.class));
+
         adapter.notifyDataSetChanged();
     }
 

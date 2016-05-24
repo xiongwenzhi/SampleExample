@@ -22,8 +22,8 @@
         </activity>
         <activity android:name=".ui.activity.ViewPageGalleryActivity" />
         <activity android:name=".ui.activity.ShadowActivity" />
-        <activity android:name=".ui.activity.Gallery3DActivity" />
         <activity android:name=".ui.activity.GalleryCardActivity" />
+        <activity android:name=".ui.activity.AutoCompleteActivity" />
     </application>
 
 </manifest>
