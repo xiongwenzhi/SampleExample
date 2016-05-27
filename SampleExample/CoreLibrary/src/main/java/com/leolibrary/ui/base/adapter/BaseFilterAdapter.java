@@ -119,7 +119,10 @@ public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filter
         return data;
     }
 
-    public void refreshFilterData() {
+    /**
+     * 动态添加改变数据时，需要调用该方法重新设置Filter中的数据，否则下拉列表显示的是旧数据
+     */
+    public void onRefreshFilterData() {
         getFilter().setmUnfilteredData(data);
     }
 
@@ -171,12 +174,13 @@ public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filter
     }
 
     /**
-     * 绑定数据
+     * 抽象方法，绑定数据。因为不知道子类会绑定哪些数据，所以公开一个抽象方法让子类去实现数据绑定
+     * View
      */
     public abstract void onBindDataToView(DataHodler hodler, T t);
 
     /**
-     * 自定义数据过滤规则
+     * 抽象方法，自定义数据过滤规则。
      */
     public abstract List<T> onFilterRule(String prefixString, List<T> unfilteredValues);
 }

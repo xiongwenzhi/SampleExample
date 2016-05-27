@@ -20,8 +20,10 @@ public class PersonFilterAdapter extends BaseFilterAdapter<PersonInfo> {
 
     @Override
     public void onBindDataToView(DataHodler hodler, PersonInfo personInfo) {
-        TextView textView = hodler.getView(R.id.tv_name);
-        textView.setText(personInfo.getName());
+        TextView name = hodler.getView(R.id.tv_name);
+        TextView phone = hodler.getView(R.id.tv_phone);
+        name.setText(personInfo.getName());
+        phone.setText(personInfo.getPhone());
     }
 
     /**
@@ -40,5 +42,4 @@ public class PersonFilterAdapter extends BaseFilterAdapter<PersonInfo> {
         }
         return newValues;
     }
-
 }

@@ -28,22 +28,27 @@ public class AutoCompleteActivity extends BaseActivity implements AdapterView.On
     @Override
     public void initView() {
         tv_seach = (AutoCompleteTextView) findViewById(R.id.tv_seach);
+        //设置多少个字开始显示下拉列表
         tv_seach.setThreshold(1);
+        //初始化adapter,R.layout.item_complete_textview为下拉列表显示的布局文件
         filterAdapter = new PersonFilterAdapter(R.layout.item_complete_textview);
         tv_seach.setAdapter(filterAdapter);
     }
 
     @Override
     public void initData() {
+        //添加测试数据
         for (int i = 0; i < name.length; i++) {
-            filterAdapter.add(new PersonInfo(name[i]));
+            filterAdapter.add(new PersonInfo(name[i], "13337589632" + i));
         }
-        filterAdapter.refreshFilterData();
+        //刷新Filter数据
+        filterAdapter.onRefreshFilterData();
         filterAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void initListener() {
+        //下拉列表点击事件
         tv_seach.setOnItemClickListener(this);
     }
 

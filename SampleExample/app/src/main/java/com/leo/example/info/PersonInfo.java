@@ -9,8 +9,9 @@ public class PersonInfo implements Serializable {
     private String name;
     private String phone;
 
-    public PersonInfo(String name) {
+    public PersonInfo(String name, String phone) {
         this.name = name;
+        this.phone = phone;
     }
 
     public String getName() {
