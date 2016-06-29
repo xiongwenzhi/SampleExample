@@ -1,12 +1,15 @@
 package com.leo.example.ui.animation;
 
 import android.support.v4.view.CustomViewPager;
+import android.util.Log;
 import android.view.View;
 
 import com.leo.example.enums.PagerLocation;
 import com.leo.example.util.PagerAnimationUtil;
 import com.leo.example.util.SystemUtil;
 import com.leolibrary.callback.ListCallback;
+
+import java.util.logging.Logger;
 
 /**
  * Created by leo on 16/5/20.
@@ -54,13 +57,13 @@ public class ZoomCardPageTransformer implements CustomViewPager.PageTransformer 
      */
     private void setPositionViewAnimation(View view, float position) {
         //View所在页面
-        int postion = (int) view.getTag();
+        int pos = (int) view.getTag();
         //是否在当前显示页的右边
-        PagerLocation location = PagerAnimationUtil.getLocation(currentItem, postion);
+        PagerLocation location = PagerAnimationUtil.getLocation(currentItem, pos);
         //缩放比例
-        float scaleFactor = PagerAnimationUtil.getScaleCoefficient(currentItem, postion);
+        float scaleFactor = PagerAnimationUtil.getScaleCoefficient(currentItem, pos);
         //位移比例
-        float transFactor = PagerAnimationUtil.getTranslationCoefficient(currentItem, postion);
+        float transFactor = PagerAnimationUtil.getTranslationCoefficient(currentItem, pos);
         //位移距离
         float translationFactor = translation * PagerAnimationUtil.getTranslationSize(location, transFactor, position);
         //缩放大小
@@ -69,14 +72,15 @@ public class ZoomCardPageTransformer implements CustomViewPager.PageTransformer 
         view.setAlpha(0.5f + (scale - scaleFactor) / (1 - scaleFactor) * (1 - 0.5f));
         view.setScaleX(scale);
         view.setScaleY(scale);
-        setViewRotation(view, location);
+        setViewRotation(view, location, position);
         view.setTranslationX(translationFactor);
+        Log.e("position:", "" + position);
     }
 
     /**
      * 设置view旋转角度（3D效果）
      */
-    public void setViewRotation(View view, PagerLocation location) {
+    public void setViewRotation(View view, PagerLocation location, float position) {
         if (!is3D) {
             return;
         }

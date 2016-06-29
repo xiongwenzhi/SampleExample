@@ -1,38 +1,19 @@
+apply from: '../config/sdkVersion.gradle'
+apply from: '../config/library.gradle'
 apply plugin: 'com.android.library'
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
 
 dependencies {
+    Map<String, String> libs = rootProject.ext.libs
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    // Retrofit网络处理
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    // Retrofit的gson库
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    // CardView
-    compile 'com.android.support:cardview-v7:23.4.0'
-    // glide
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    // Loadding
-    compile 'com.wang.avi:library:1.0.5'
-    compile 'com.nineoldandroids:library:2.4.0'
-    // 圆角ImageView
-    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile libs.appcompat_v7
+    compile libs.design
+    compile libs.retrofit2
+    compile libs.converter_gson
+    compile libs.glide
+    compile libs.nineoldandroids
+    compile libs.cardview
+    compile libs.roundedimageview
+    compile libs.avi_loading
+    compile libs.rxandroid
+    compile libs.rxjava
 }

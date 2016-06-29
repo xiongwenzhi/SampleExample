@@ -40,8 +40,8 @@ public class ViewPageGalleryActivity extends BaseActivity {
         ll_layout = (LinearLayout) findViewById(R.id.ll_layout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapter = new GalleryPageAdapter(list, ViewPageGalleryActivity.this, R.layout.item_view);
-        viewPager.setOffscreenPageLimit(5);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
     }
 
     @Override
