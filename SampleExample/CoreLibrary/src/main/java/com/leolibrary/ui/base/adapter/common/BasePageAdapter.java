@@ -1,4 +1,4 @@
-package com.leolibrary.ui.base.adapter;
+package com.leolibrary.ui.base.adapter.common;
 
 import android.support.v4.view.PagerAdapter;
 

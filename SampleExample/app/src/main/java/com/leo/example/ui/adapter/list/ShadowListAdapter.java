@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.leo.example.R;
 import com.leo.example.info.SubjectsInfo;
 import com.leo.example.util.ToastUtil;
-import com.leolibrary.ui.base.adapter.BaseListAdapter;
+import com.leolibrary.ui.base.adapter.common.BaseListAdapter;
 import com.leolibrary.ui.base.viewhodler.DataHodler;
 import com.leolibrary.utils.image.PhotoLoader;
 

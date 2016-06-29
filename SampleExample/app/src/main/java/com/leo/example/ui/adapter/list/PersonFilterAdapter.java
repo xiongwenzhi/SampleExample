@@ -4,7 +4,7 @@ import android.widget.TextView;
 
 import com.leo.example.R;
 import com.leo.example.info.PersonInfo;
-import com.leolibrary.ui.base.adapter.BaseFilterAdapter;
+import com.leolibrary.ui.base.adapter.common.BaseFilterAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

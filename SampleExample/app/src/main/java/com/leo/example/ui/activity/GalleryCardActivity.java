@@ -1,10 +1,8 @@
 package com.leo.example.ui.activity;
 
 import android.databinding.DataBindingUtil;
-import android.support.v4.view.CustomViewPager;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.leo.example.Constans;
 import com.leo.example.R;
@@ -31,7 +29,7 @@ public class GalleryCardActivity extends BaseActivity {
         //初始化ViewPager
         boolean is3D = getIntent().getBooleanExtra(Constans.IS_3D, false);
         adapter = new PagerViewAdapter(this);
-        binding.viewPager.setPageTransformer(true, new ZoomCardPageTransformer(binding.viewPager, adapter, is3D));
+        binding.viewPager.setPageTransformer(true, new ZoomCardPageTransformer(binding.viewPager, is3D));
         binding.viewPager.setOffscreenPageLimit(5);
     }
 

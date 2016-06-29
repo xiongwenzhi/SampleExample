@@ -1,4 +1,4 @@
-package com.leolibrary.ui.base.adapter;
+package com.leolibrary.ui.base.adapter.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +28,6 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<DataHodler
     }
 
 
-    /**
-     * 一定要BaseListAdapter.DataHodler 否则会编译不通过，因为要覆盖抽象方法
-     */
     @Override
     public DataHodler onCreateViewHolder(ViewGroup parent, int viewType) {
         return new DataHodler(LayoutInflater.from(context).inflate(getItemLayoutId(), parent, false), this, this);

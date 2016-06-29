@@ -1,7 +1,6 @@
 package com.leo.example.ui.adapter.page;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.leo.example.R;
 import com.leo.example.info.SubjectsInfo;
-import com.leolibrary.ui.base.adapter.BasePageAdapter;
+import com.leolibrary.ui.base.adapter.common.BasePageAdapter;
 import com.leolibrary.utils.image.PhotoLoader;
 
 import java.util.ArrayList;

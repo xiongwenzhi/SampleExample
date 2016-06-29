@@ -3,7 +3,6 @@ package com.leo.example.ui.activity;
 import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 
 import com.leo.example.R;
 import com.leo.example.databinding.ActivityAutoCompleteBinding;

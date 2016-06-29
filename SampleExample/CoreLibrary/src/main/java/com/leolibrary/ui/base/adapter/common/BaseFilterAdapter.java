@@ -1,4 +1,4 @@
-package com.leolibrary.ui.base.adapter;
+package com.leolibrary.ui.base.adapter.common;
 
 import android.util.SparseArray;
 import android.view.LayoutInflater;

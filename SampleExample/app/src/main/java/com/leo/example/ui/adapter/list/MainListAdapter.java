@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.leo.example.Constans;
 import com.leo.example.R;
 import com.leo.example.info.ActivityInfo;
-import com.leolibrary.ui.base.adapter.BaseListAdapter;
+import com.leolibrary.ui.base.adapter.common.BaseListAdapter;
 import com.leolibrary.ui.base.viewhodler.DataHodler;
 
 /**

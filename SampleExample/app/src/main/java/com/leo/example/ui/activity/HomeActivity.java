@@ -7,6 +7,7 @@ import android.view.View;
 import com.leo.example.R;
 import com.leo.example.databinding.ActivityHomeBinding;
 import com.leo.example.info.ActivityInfo;
+import com.leo.example.ui.adapter.list.MainBindingAdapter;
 import com.leo.example.ui.adapter.list.MainListAdapter;
 import com.leolibrary.ui.base.activity.BaseActivity;
 
@@ -14,7 +15,7 @@ import com.leolibrary.ui.base.activity.BaseActivity;
  * 主界面
  */
 public class HomeActivity extends BaseActivity {
-    private MainListAdapter adapter;
+    private MainBindingAdapter adapter;
     private ActivityHomeBinding binding;
 
     @Override
@@ -24,7 +25,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        adapter = new MainListAdapter(this);
+        adapter = new MainBindingAdapter(this);
         binding.rvList.setLayoutManager(new LinearLayoutManager(this));
         binding.rvList.setAdapter(adapter);
     }

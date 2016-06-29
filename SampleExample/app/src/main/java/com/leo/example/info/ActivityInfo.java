@@ -1,15 +1,41 @@
 package com.leo.example.info;
 
+import android.databinding.BaseObservable;
+import android.databinding.ObservableField;
+
 /**
  * Created by leo on 16/5/14.
+ * Activity - 实体类
  */
-public class ActivityInfo {
-    private String name;
-    private Class mClass;
+public class ActivityInfo extends BaseObservable {
+    private ObservableField<String> name;
+    private ObservableField<Class> mClass;
+    private ObservableField<String> className;
 
     public ActivityInfo(String name, Class mClass) {
-        this.name = name;
-        this.mClass = mClass;
+        this.name = new ObservableField<>(name);
+        this.mClass = new ObservableField<>(mClass);
+        this.className = new ObservableField<>(mClass.getName());
+    }
+
+    public String getClassName() {
+        return className.get();
+    }
+
+    public void setClassName(String className) {
+        this.className = new ObservableField<>(className);
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    public void setName(String name) {
+        this.name = new ObservableField<>(name);
+    }
+
+    public Class getmClass() {
+        return mClass.get();
     }
 
     @Override
@@ -18,22 +44,6 @@ public class ActivityInfo {
                 "name='" + name + '\'' +
                 ", mClass=" + mClass +
                 '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Class getmClass() {
-        return mClass;
-    }
-
-    public void setmClass(Class mClass) {
-        this.mClass = mClass;
     }
 
 }

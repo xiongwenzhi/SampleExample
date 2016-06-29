@@ -7,9 +7,6 @@ import android.view.View;
 import com.leo.example.enums.PagerLocation;
 import com.leo.example.util.PagerAnimationUtil;
 import com.leo.example.util.SystemUtil;
-import com.leolibrary.callback.ListCallback;
-
-import java.util.logging.Logger;
 
 /**
  * Created by leo on 16/5/20.
@@ -22,12 +19,10 @@ public class ZoomCardPageTransformer implements CustomViewPager.PageTransformer 
     private float itemWidth = 0;
     private float translation;
     private int currentItem = 0;
-    private ListCallback callback;//考虑到可能要做ViewPager循环预留参数
     private boolean is3D = false;
 
-    public ZoomCardPageTransformer(CustomViewPager viewPager, ListCallback callback, boolean is3D) {
+    public ZoomCardPageTransformer(CustomViewPager viewPager, boolean is3D) {
         this.viewPager = viewPager;
-        this.callback = callback;
         this.is3D = is3D;
         init();
     }

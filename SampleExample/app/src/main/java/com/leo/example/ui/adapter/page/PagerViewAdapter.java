@@ -1,12 +1,11 @@
 package com.leo.example.ui.adapter.page;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.leo.example.ui.viewmodel.Image3DModel;
-import com.leolibrary.ui.base.adapter.PagerViewModelAdapter;
+import com.leolibrary.ui.base.adapter.common.PagerViewModelAdapter;
 
 /**
  * Created by leo on 16/5/19.
