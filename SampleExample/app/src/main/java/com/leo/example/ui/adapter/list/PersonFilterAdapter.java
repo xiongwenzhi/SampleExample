@@ -36,7 +36,7 @@ public class PersonFilterAdapter extends BaseFilterAdapter<PersonInfo> {
     public List<PersonInfo> onFilterRule(String prefixString, List<PersonInfo> unfilteredValues) {
         ArrayList<PersonInfo> newValues = new ArrayList<>();
         for (PersonInfo info : unfilteredValues) {
-            if (info.getName().contains(prefixString)) {
+            if (info.getName().contains(prefixString) || info.getPhone().contains(prefixString)) {
                 newValues.add(info);
             }
         }
