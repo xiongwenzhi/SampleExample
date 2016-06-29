@@ -1,25 +1,28 @@
 package com.leo.example.ui.Fragment;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.leo.example.R;
-import com.leo.example.callback.DataCallBack;
+import com.leo.example.databinding.FragmentShadowBinding;
+import com.leo.example.dto.ListDTO;
 import com.leo.example.info.SubjectsInfo;
 import com.leo.example.ui.adapter.list.ShadowListAdapter;
 import com.leo.example.util.DouBanApiUtil;
-import com.leo.example.util.ToastUtil;
 import com.leolibrary.ui.base.Fragment.BaseFragment;
 
-import java.util.List;
+import rx.functions.Action1;
 
 /**
  * Created by leo on 16/5/14.
- * 引用Fragment
+ * Card - Fragment
  */
 public class ShadowsFragment extends BaseFragment {
+    private FragmentShadowBinding binding;
     public int postion;
-    public RecyclerView rvShadow;
     private ShadowListAdapter shadowListAdapter;
 
     public static ShadowsFragment getInstance(int postion) {
@@ -28,6 +31,11 @@ public class ShadowsFragment extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    public View createView(LayoutInflater inflater, ViewGroup container) {
+        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+        return binding.getRoot();
+    }
 
     public void setPostion(int postion) {
         this.postion = postion;
@@ -40,24 +48,18 @@ public class ShadowsFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        rvShadow = (RecyclerView) getView().findViewById(R.id.rv_shadow);
         shadowListAdapter = new ShadowListAdapter(getContext(), postion);
-        rvShadow.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        rvShadow.setAdapter(shadowListAdapter);
+        binding.rvShadow.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.rvShadow.setAdapter(shadowListAdapter);
     }
 
     @Override
     public void initData() {
-        DouBanApiUtil.LoadRepoData(getContext(), new DataCallBack<List<SubjectsInfo>>() {
+        DouBanApiUtil.LoadRepoData(getContext(), new Action1<ListDTO<SubjectsInfo>>() {
             @Override
-            public void onSuccess(final List<SubjectsInfo> subjectsInfos) {
-                shadowListAdapter.addAll(subjectsInfos);
+            public void call(ListDTO<SubjectsInfo> subjectsInfoListDTO) {
+                shadowListAdapter.addAll(subjectsInfoListDTO.getList());
                 shadowListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                ToastUtil.showMessage(getContext(), t.getMessage());
             }
         });
     }

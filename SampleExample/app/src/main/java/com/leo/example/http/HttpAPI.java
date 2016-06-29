@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -24,6 +25,7 @@ public class HttpAPI {
         apiModule = new ConcurrentHashMap<>();
         builder = new Retrofit.Builder()
                 .baseUrl(ENDPOINT)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//指定适配器模式为RxJavaCallAdapterFactory
                 .addConverterFactory(GsonConverterFactory.create()); // 添加Gson转换器
     }
 

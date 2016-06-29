@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="3dp"
-        app:cardMaxElevation="1px"
-        app:contentPadding="0dp">
+        android:orientation="vertical">
 
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="3dp"
+            app:cardMaxElevation="1px"
+            app:contentPadding="0dp">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/iv_move_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_gravity="center_vertical"
-                    android:scaleType="fitXY"
-                    app:riv_corner_radius="3dp"
-                    app:riv_oval="false" />
-
-                <TextView
-                    android:id="@+id/tv_movie_name"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:singleLine="true" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_movie_ratting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="15dp"
-                android:text="9.6"
-                android:textColor="#e7101e"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-        </FrameLayout>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/iv_move_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="fitXY"
+                        app:riv_corner_radius="3dp"
+                        app:riv_oval="false" />
+
+                    <TextView
+                        android:id="@+id/tv_movie_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_movie_ratting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="15dp"
+                    android:text="9.6"
+                    android:textColor="#e7101e"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</layout>

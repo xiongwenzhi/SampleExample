@@ -7,6 +7,7 @@ import com.leo.example.info.SubjectsInfo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import rx.Observable;
 
 
 /**
@@ -16,7 +17,7 @@ public interface DouBanService {
 
     // 获取库, 获取的是数组
     @GET("v2/movie/in_theaters")
-    Call<ListDTO<SubjectsInfo>> getRepoData(@Query("count") String count);
+    Observable<ListDTO<SubjectsInfo>> getRepoData(@Query("count") int count);
 
     // 获取库, 获取的是数组
     @GET("v2/movie/top250")

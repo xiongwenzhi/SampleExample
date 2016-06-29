@@ -16,4 +16,6 @@ dependencies {
     compile libs.avi_loading
     compile libs.rxandroid
     compile libs.rxjava
+    compile libs.retrofitAdapterRxJava
+    compile libs.retrofit_adapters
 }

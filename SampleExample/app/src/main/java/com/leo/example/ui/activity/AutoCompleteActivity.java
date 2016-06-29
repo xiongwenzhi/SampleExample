@@ -1,10 +1,12 @@
 package com.leo.example.ui.activity;
 
+import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 
 import com.leo.example.R;
+import com.leo.example.databinding.ActivityAutoCompleteBinding;
 import com.leo.example.info.PersonInfo;
 import com.leo.example.ui.adapter.list.PersonFilterAdapter;
 import com.leolibrary.ui.base.activity.BaseActivity;
@@ -14,25 +16,24 @@ import com.leolibrary.ui.base.activity.BaseActivity;
  * 支持自定义数据过滤规则的 AutoCompleteTextView demo
  */
 public class AutoCompleteActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-    private AutoCompleteTextView tv_seach;
+    private ActivityAutoCompleteBinding binding;
     private PersonFilterAdapter filterAdapter;
     private String[] name = {"张三", "张三峰", "李四", "历史",
-            "王五", "王八蛋", "哈哈哈", "呵呵呵",
-            "你好呀", "就是这么酷", "啦啦啦啦", "yes"};
+            "王五", "测试", "哈哈哈", "呵呵呵",
+            "你好呀", "网测", "啦啦啦啦", "yes"};
 
     @Override
     public void beforInitView() {
-        setContentView(R.layout.activity_auto_complete);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_auto_complete);
     }
 
     @Override
     public void initView() {
-        tv_seach = (AutoCompleteTextView) findViewById(R.id.tv_seach);
         //设置多少个字开始显示下拉列表
-        tv_seach.setThreshold(1);
+        binding.tvSeach.setThreshold(1);
         //初始化adapter,R.layout.item_complete_textview为下拉列表显示的布局文件
         filterAdapter = new PersonFilterAdapter(R.layout.item_complete_textview);
-        tv_seach.setAdapter(filterAdapter);
+        binding.tvSeach.setAdapter(filterAdapter);
     }
 
     @Override
@@ -49,12 +50,13 @@ public class AutoCompleteActivity extends BaseActivity implements AdapterView.On
     @Override
     public void initListener() {
         //下拉列表点击事件
-        tv_seach.setOnItemClickListener(this);
+        binding.tvSeach.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        tv_seach.setText(filterAdapter.get(position).getName());
-        tv_seach.setSelection(tv_seach.getText().length());//设置光标到末尾
+        binding.tvSeach.setText(filterAdapter.get(position).getName());
+        //设置光标到末尾
+        binding.tvSeach.setSelection(binding.tvSeach.getText().length());
     }
 }

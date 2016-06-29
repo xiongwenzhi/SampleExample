@@ -16,6 +16,11 @@ public abstract class BaseFragment extends Fragment implements InitRes {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return createView(inflater, container);
+    }
+
+    @Override
+    public View createView(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(getLayoutId(), container, false);
         return view;
     }

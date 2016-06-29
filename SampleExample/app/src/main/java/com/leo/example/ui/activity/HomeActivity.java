@@ -1,10 +1,11 @@
 package com.leo.example.ui.activity;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.leo.example.R;
+import com.leo.example.databinding.ActivityHomeBinding;
 import com.leo.example.info.ActivityInfo;
 import com.leo.example.ui.adapter.list.MainListAdapter;
 import com.leolibrary.ui.base.activity.BaseActivity;
@@ -13,20 +14,19 @@ import com.leolibrary.ui.base.activity.BaseActivity;
  * 主界面
  */
 public class HomeActivity extends BaseActivity {
-    RecyclerView rvList;
     private MainListAdapter adapter;
+    private ActivityHomeBinding binding;
 
     @Override
     public void beforInitView() {
-        setContentView(R.layout.activity_home);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
     }
 
     @Override
     public void initView() {
         adapter = new MainListAdapter(this);
-        rvList = (RecyclerView) findViewById(R.id.rv_list);
-        rvList.setLayoutManager(new LinearLayoutManager(this));
-        rvList.setAdapter(adapter);
+        binding.rvList.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvList.setAdapter(adapter);
     }
 
     @Override
@@ -36,7 +36,6 @@ public class HomeActivity extends BaseActivity {
         adapter.add(new ActivityInfo("3D画廊效果实现", GalleryCardActivity.class));
         adapter.add(new ActivityInfo("仿QQ天气星座卡片效果", GalleryCardActivity.class));
         adapter.add(new ActivityInfo("支持自定义数据过滤规则的AutoCompleteTextView-Demo", AutoCompleteActivity.class));
-
         adapter.notifyDataSetChanged();
     }
 

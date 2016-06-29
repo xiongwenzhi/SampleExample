@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 android {
+    dataBinding {
+        enabled = true
+    }
     compileSdkVersion rootProject.ext.compile_sdk_version
     buildToolsVersion rootProject.ext.build_tools_version
 
