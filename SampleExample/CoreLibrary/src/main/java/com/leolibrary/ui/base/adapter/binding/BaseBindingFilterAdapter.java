@@ -1,5 +1,8 @@
-package com.leolibrary.ui.base.adapter.common;
+package com.leolibrary.ui.base.adapter.binding;
 
+import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.Filterable;
 
 import com.leolibrary.R;
 import com.leolibrary.callback.ListCallback;
+import com.leolibrary.ui.base.viewhodler.BaseDataViewHodler;
 import com.leolibrary.utils.filter.CustomFilterRule;
 
 import java.util.ArrayList;
@@ -19,13 +23,15 @@ import java.util.List;
  * Created by leo on 16/5/23.
  * 基类 自定义数据过滤规则 用于AutoCompleteTextView
  */
-public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filterable, ListCallback<T> {
+public abstract class BaseBindingFilterAdapter<T, B extends ViewDataBinding> extends BaseAdapter implements Filterable, ListCallback<T> {
     private CustomFilterRule<T> filter;
     private List<T> data;
     private int layoutId = -1;
+    private LayoutInflater layoutInflater;
 
-    public BaseFilterAdapter(int layoutId) {
+    public BaseBindingFilterAdapter(Context context, int layoutId) {
         this.layoutId = layoutId;
+        layoutInflater = LayoutInflater.from(context);
         initList();
     }
 
@@ -44,10 +50,7 @@ public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filter
     }
 
     public int getLayoutId() {
-        if (layoutId != -1) {
-            return layoutId;
-        }
-        return R.layout.item_complete_textview;
+        return layoutId;
     }
 
     @Override
@@ -67,16 +70,21 @@ public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filter
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DataHodler dataHodler;
+        BaseDataViewHodler dataHodler;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(getLayoutId(), null);
-            dataHodler = new DataHodler(convertView);
+            B b = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), parent, false);
+            dataHodler = new BaseDataViewHodler(b);
+            convertView = b.getRoot();
             convertView.setTag(dataHodler);
         } else {
-            dataHodler = (DataHodler) convertView.getTag();
+            dataHodler = (BaseDataViewHodler) convertView.getTag();
         }
         onBindDataToView(dataHodler, getItem(position));
         return convertView;
+    }
+
+    public LayoutInflater getLayoutInflater() {
+        return layoutInflater;
     }
 
     @Override
@@ -126,29 +134,17 @@ public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filter
         getFilter().setmUnfilteredData(data);
     }
 
+
     /**
-     * 复用ViewHodler
+     * 抽象方法，绑定数据
+     * View
      */
-    public class DataHodler {
-        private View convertView;
-        private SparseArray viewRes = new SparseArray();
+    public abstract void onBindDataToView(BaseDataViewHodler<B> hodler, T t);
 
-        public DataHodler(View convertView) {
-            this.convertView = convertView;
-        }
-
-        /**
-         * 获取View
-         */
-        public <V extends View> V getView(int viewId) {
-            V view = (V) viewRes.get(viewId);
-            if (view == null) {
-                view = (V) convertView.findViewById(viewId);
-                viewRes.put(viewId, view);
-            }
-            return view;
-        }
-    }
+    /**
+     * 抽象方法，自定义数据过滤规则。
+     */
+    public abstract List<T> onFilterRule(String prefixString, List<T> unfilteredValues);
 
     /**
      * 创建Filter筛选器
@@ -173,14 +169,4 @@ public abstract class BaseFilterAdapter<T> extends BaseAdapter implements Filter
         return customFilter;
     }
 
-    /**
-     * 抽象方法，绑定数据。因为不知道子类会绑定哪些数据，所以公开一个抽象方法让子类去实现数据绑定
-     * View
-     */
-    public abstract void onBindDataToView(DataHodler hodler, T t);
-
-    /**
-     * 抽象方法，自定义数据过滤规则。
-     */
-    public abstract List<T> onFilterRule(String prefixString, List<T> unfilteredValues);
 }

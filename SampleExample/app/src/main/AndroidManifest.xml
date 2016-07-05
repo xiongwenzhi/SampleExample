@@ -25,6 +25,7 @@
         <activity android:name=".ui.activity.ShadowActivity" />
         <activity android:name=".ui.activity.GalleryCardActivity" />
         <activity android:name=".ui.activity.AutoCompleteActivity" />
+        <activity android:name=".ui.activity.BitmapActivity" />
     </application>
 
 </manifest>

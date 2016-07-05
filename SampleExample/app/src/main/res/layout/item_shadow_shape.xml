@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="data"
+            type="com.leo.example.info.SubjectsInfo" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,6 +34,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_vertical"
                     android:scaleType="fitXY"
+                    android:src='@{data.images.large}'
                     app:riv_corner_radius_top_left="3dp"
                     app:riv_corner_radius_top_right="3dp"
                     app:riv_oval="false" />
@@ -38,7 +46,8 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@{data.title}" />
             </LinearLayout>
 
             <TextView
@@ -47,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="15dp"
-                android:text="9.6"
                 android:textColor="#e7101e"
                 android:textSize="30sp"
                 android:textStyle="bold" />

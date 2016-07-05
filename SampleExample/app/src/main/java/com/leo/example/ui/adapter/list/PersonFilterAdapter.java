@@ -1,10 +1,13 @@
 package com.leo.example.ui.adapter.list;
 
+import android.content.Context;
 import android.widget.TextView;
 
 import com.leo.example.R;
+import com.leo.example.databinding.ItemCompleteTextBinding;
 import com.leo.example.info.PersonInfo;
-import com.leolibrary.ui.base.adapter.common.BaseFilterAdapter;
+import com.leolibrary.ui.base.adapter.binding.BaseBindingFilterAdapter;
+import com.leolibrary.ui.base.viewhodler.BaseDataViewHodler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +16,18 @@ import java.util.List;
  * Created by leo on 16/5/24.
  * 数据筛选适配
  */
-public class PersonFilterAdapter extends BaseFilterAdapter<PersonInfo> {
-    public PersonFilterAdapter(int layoutId) {
-        super(layoutId);
+public class PersonFilterAdapter extends BaseBindingFilterAdapter<PersonInfo, ItemCompleteTextBinding> {
+
+
+    public PersonFilterAdapter(Context context, int layoutId) {
+        super(context, layoutId);
     }
 
     @Override
-    public void onBindDataToView(DataHodler hodler, PersonInfo personInfo) {
-        TextView name = hodler.getView(R.id.tv_name);
-        TextView phone = hodler.getView(R.id.tv_phone);
-        name.setText(personInfo.getName());
-        phone.setText(personInfo.getPhone());
+    public void onBindDataToView(BaseDataViewHodler<ItemCompleteTextBinding> hodler, PersonInfo personInfo) {
+        hodler.getBinding().setData(personInfo);
     }
+
 
     /**
      * 自定义筛选规则
@@ -42,4 +45,5 @@ public class PersonFilterAdapter extends BaseFilterAdapter<PersonInfo> {
         }
         return newValues;
     }
+
 }

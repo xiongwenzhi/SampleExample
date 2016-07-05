@@ -38,8 +38,8 @@ public abstract class BaseBindingListAdapter<T, B extends ViewDataBinding> exten
 
     @Override
     public void onBindViewHolder(BaseDataViewHodler<B> holder, int position) {
-        onBindDataToView(holder, get(position));
-        onBindListener(holder, get(position));
+        onBindDataToView(holder, position, get(position));
+        onBindListener(holder, position, get(position));
     }
 
     public LayoutInflater getInflater() {
@@ -98,7 +98,7 @@ public abstract class BaseBindingListAdapter<T, B extends ViewDataBinding> exten
 
     protected abstract int getItemLayoutId(int position);
 
-    public abstract void onBindDataToView(BaseDataViewHodler<B> holder, T t);
+    public abstract void onBindDataToView(BaseDataViewHodler<B> holder, int position, T t);
 
     public Context getContext() {
         return context;

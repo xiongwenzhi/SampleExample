@@ -31,7 +31,7 @@ public class AutoCompleteActivity extends BaseActivity implements AdapterView.On
         //设置多少个字开始显示下拉列表
         binding.tvSeach.setThreshold(1);
         //初始化adapter,R.layout.item_complete_textview为下拉列表显示的布局文件
-        filterAdapter = new PersonFilterAdapter(R.layout.item_complete_textview);
+        filterAdapter = new PersonFilterAdapter(this,R.layout.item_complete_text);
         binding.tvSeach.setAdapter(filterAdapter);
     }
 
@@ -54,8 +54,8 @@ public class AutoCompleteActivity extends BaseActivity implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        binding.tvSeach.setText(filterAdapter.get(position).getName());
-        //设置光标到末尾
-        binding.tvSeach.setSelection(binding.tvSeach.getText().length());
+//        binding.tvSeach.setText(filterAdapter.get(position).getName());
+//        //设置光标到末尾
+//        binding.tvSeach.setSelection(binding.tvSeach.getText().length());
     }
 }

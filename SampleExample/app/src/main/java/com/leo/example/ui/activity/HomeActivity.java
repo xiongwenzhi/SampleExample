@@ -8,7 +8,6 @@ import com.leo.example.R;
 import com.leo.example.databinding.ActivityHomeBinding;
 import com.leo.example.info.ActivityInfo;
 import com.leo.example.ui.adapter.list.MainBindingAdapter;
-import com.leo.example.ui.adapter.list.MainListAdapter;
 import com.leolibrary.ui.base.activity.BaseActivity;
 
 /**
@@ -35,8 +34,9 @@ public class HomeActivity extends BaseActivity {
         adapter.add(new ActivityInfo("Viewpager 实现Gallery画廊效果", ViewPageGalleryActivity.class));
         adapter.add(new ActivityInfo("Shape 实现CardView阴影", ShadowActivity.class));
         adapter.add(new ActivityInfo("3D画廊效果实现", GalleryCardActivity.class));
-        adapter.add(new ActivityInfo("仿QQ天气星座卡片效果", GalleryCardActivity.class));
+        adapter.add(new ActivityInfo("QQ天气星座卡片效果", GalleryCardActivity.class));
         adapter.add(new ActivityInfo("支持自定义数据过滤规则的AutoCompleteTextView-Demo", AutoCompleteActivity.class));
+        adapter.add(new ActivityInfo("Bitmap测试", BitmapActivity.class));
         adapter.notifyDataSetChanged();
     }
 

@@ -26,15 +26,16 @@ public class MainBindingAdapter extends BaseBindingListAdapter<ActivityInfo, Ite
         return R.layout.item_rv_list;
     }
 
+
     @Override
-    public void onBindDataToView(BaseDataViewHodler<ItemRvListBinding> holder, ActivityInfo activityInfo) {
+    public void onBindDataToView(BaseDataViewHodler<ItemRvListBinding> holder, int position, ActivityInfo activityInfo) {
         ItemRvListBinding binding = holder.getBinding();
         binding.setData(activityInfo);
     }
 
 
     @Override
-    public void onBindListener(BaseDataViewHodler<ItemRvListBinding> b, final ActivityInfo activityInfo) {
+    public void onBindListener(BaseDataViewHodler<ItemRvListBinding> b, int position, final ActivityInfo activityInfo) {
         b.getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,5 +49,4 @@ public class MainBindingAdapter extends BaseBindingListAdapter<ActivityInfo, Ite
             }
         });
     }
-
 }

@@ -32,9 +32,6 @@ public class PersonInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "PersonInfo{" +
-                "name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return name;
     }
 }

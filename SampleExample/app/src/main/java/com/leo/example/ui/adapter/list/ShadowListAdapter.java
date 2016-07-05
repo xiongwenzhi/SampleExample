@@ -1,24 +1,24 @@
 package com.leo.example.ui.adapter.list;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.databinding.ViewDataBinding;
 import android.text.Html;
 import android.text.TextUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View;
 
 import com.leo.example.R;
+import com.leo.example.databinding.ItemShadowCardviewBinding;
+import com.leo.example.databinding.ItemShadowShapeBinding;
 import com.leo.example.info.SubjectsInfo;
 import com.leo.example.util.ToastUtil;
-import com.leolibrary.ui.base.adapter.common.BaseListAdapter;
-import com.leolibrary.ui.base.viewhodler.DataHodler;
-import com.leolibrary.utils.image.PhotoLoader;
+import com.leolibrary.ui.base.adapter.binding.BaseBindingListAdapter;
+import com.leolibrary.ui.base.viewhodler.BaseDataViewHodler;
 
 
 /**
  * Created by leo on 16/5/14.
  */
-public class ShadowListAdapter extends BaseListAdapter<SubjectsInfo> {
+public class ShadowListAdapter extends BaseBindingListAdapter<SubjectsInfo, ViewDataBinding> {
     private int position;
 
     public ShadowListAdapter(Context context, int position) {
@@ -26,25 +26,6 @@ public class ShadowListAdapter extends BaseListAdapter<SubjectsInfo> {
         this.position = position;
     }
 
-    @Override
-    protected int getItemLayoutId() {
-        if (position == 0) {
-            return R.layout.item_shadow_shape;
-        }
-        return R.layout.item_shadow_cardview;
-    }
-
-    @Override
-    public Drawable getItemBackGround() {
-        return null;
-    }
-
-    @Override
-    public void onBindDataToView(DataHodler dataHodler, SubjectsInfo subject) {
-        ((TextView) dataHodler.getView(R.id.tv_movie_ratting)).setText(getAverage(subject));
-        ((TextView) dataHodler.getView(R.id.tv_movie_name)).setText(subject.getTitle());
-        PhotoLoader.display(getContext(), (ImageView) dataHodler.getView(R.id.iv_move_img), subject.getImages().getLarge(), getContext().getResources().getDrawable(R.mipmap.ic_loading));
-    }
 
     /**
      * 获取评分
@@ -61,7 +42,30 @@ public class ShadowListAdapter extends BaseListAdapter<SubjectsInfo> {
     }
 
     @Override
-    public void onItemClick(int position, SubjectsInfo subjectsInfo) {
-        ToastUtil.showMessage(getContext(), subjectsInfo.getTitle());
+    protected int getItemLayoutId(int position) {
+        if (position == 0) {
+            return R.layout.item_shadow_shape;
+        }
+        return R.layout.item_shadow_cardview;
+    }
+
+    @Override
+    public void onBindDataToView(BaseDataViewHodler<ViewDataBinding> holder, int position, SubjectsInfo subjectsInfo) {
+        if (getItemViewType(position) == R.layout.item_shadow_shape) {
+            ((ItemShadowShapeBinding) holder.getBinding()).setData(subjectsInfo);
+        } else {
+            ((ItemShadowCardviewBinding) holder.getBinding()).setData(subjectsInfo);
+        }
+    }
+
+
+    @Override
+    public void onBindListener(BaseDataViewHodler<ViewDataBinding> b, int position, final SubjectsInfo subjectsInfo) {
+        b.getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showMessage(getContext(), subjectsInfo.getTitle());
+            }
+        });
     }
 }
