@@ -18,4 +18,5 @@ dependencies {
     compile libs.rxjava
     compile libs.retrofitAdapterRxJava
     compile libs.retrofit_adapters
+    compile libs.systembartint
 }

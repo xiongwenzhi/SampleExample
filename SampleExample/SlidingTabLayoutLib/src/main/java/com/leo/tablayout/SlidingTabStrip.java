@@ -36,7 +36,7 @@ class SlidingTabStrip extends LinearLayout {
     private final int mBottomBorderThickness;
     private final Paint mBottomBorderPaint;
 
-    private final int mSelectedIndicatorThickness;
+    private int mSelectedIndicatorThickness;
     private final Paint mSelectedIndicatorPaint;
     private int mSelectedIndicatorPadding = -1;
     private boolean isCount = false;
@@ -46,13 +46,15 @@ class SlidingTabStrip extends LinearLayout {
     private int mSelectedPosition;
     private float mSelectionOffset;
     private float mSelectedIndicatoWidth;
+    private int mSelectedIndicatorheight;
     private SlidingTabLayout.TabColorizer mCustomTabColorizer;
     private final SimpleTabColorizer mDefaultTabColorizer;
     private float density;
 
-    SlidingTabStrip(Context context, float mSelectedIndicatoWidth) {
+    SlidingTabStrip(Context context, float mSelectedIndicatoWidth, int mSelectedIndicatorheight) {
         this(context, null);
         this.mSelectedIndicatoWidth = mSelectedIndicatoWidth;
+        this.mSelectedIndicatorheight = mSelectedIndicatorheight;
     }
 
     SlidingTabStrip(Context context, AttributeSet attrs) {
@@ -113,13 +115,14 @@ class SlidingTabStrip extends LinearLayout {
         final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
                 ? mCustomTabColorizer
                 : mDefaultTabColorizer;
-        // Thick colored underline below the current selection
+        if (mSelectedIndicatorThickness > 0) {
+            mSelectedIndicatorThickness = mSelectedIndicatorheight;
+        }
         if (childCount > 0) {
             View selectedTitle = getChildAt(mSelectedPosition);
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
             int color = tabColorizer.getIndicatorColor(mSelectedPosition);
-            Log.e("mSelectedIndicatorPadding", "" + mSelectedIndicatorPadding);
             if (mSelectedIndicatoWidth > 0 && !isCount) {
                 mSelectedIndicatorPadding = (int) (selectedTitle.getWidth() - mSelectedIndicatoWidth) / 2;
                 isCount = true;
@@ -142,7 +145,7 @@ class SlidingTabStrip extends LinearLayout {
             canvas.drawRect(left + mSelectedIndicatorPadding, height - mSelectedIndicatorThickness, right - mSelectedIndicatorPadding,
                     height, mSelectedIndicatorPaint);
         }
-        Log.e("getWidth:", "" + getWidth());
+        Log.d("getWidth:", "" + getWidth());
         // Thin underline along the entire bottom edge
         canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
     }

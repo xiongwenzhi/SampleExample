@@ -80,7 +80,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private int mTabViewTextViewId;
     private boolean mDistributeEvenly;
     private float mSelectedIndicatorWidth;
-
+    private int mSelectedIndicatorheight;
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
@@ -104,9 +104,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.TabView_tab_bottom_width) {
+            if (attr == R.styleable.TabView_selected_indicator_width) {
                 mSelectedIndicatorWidth = a.getDimensionPixelSize(attr, -1);
+            } else if (attr == R.styleable.TabView_selected_indicator_height) {
+                mSelectedIndicatorheight = a.getDimensionPixelSize(attr, -1);
             }
+
         }
         a.recycle();
         // Disable the Scroll Bar
@@ -116,7 +119,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         mTitleOffset = (int) (TITLE_OFFSET_DIPS * getResources().getDisplayMetrics().density);
 
-        mTabStrip = new SlidingTabStrip(context, mSelectedIndicatorWidth);
+        mTabStrip = new SlidingTabStrip(context, mSelectedIndicatorWidth, mSelectedIndicatorheight);
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     }
 

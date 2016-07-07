@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.leo.example.enums.PagerLocation;
 import com.leo.example.util.PagerAnimationUtil;
-import com.leo.example.util.SystemUtil;
+import com.leolibrary.utils.SystemUtil;
 
 /**
  * Created by leo on 16/5/20.

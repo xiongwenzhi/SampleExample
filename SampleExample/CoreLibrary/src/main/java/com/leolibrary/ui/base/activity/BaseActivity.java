@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.leolibrary.R;
+import com.leolibrary.utils.SystemUtil;
 
 
 /**
@@ -20,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity implements InitRes 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         beforInitView();
+        SystemUtil.setStatusDrawable(this, getResources().getDrawable(R.drawable.shape_gradient));
         initToolbar();
         initView();
         initListener();
@@ -33,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity implements InitRes 
         }
         toolbar.setTitle(getClass().getSimpleName());
         toolbar.setTitleTextColor(getResources().getColor(R.color.toolar_text_color));
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        toolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_gradient));
         if (getLeftMenuIcon() != 0) {
             toolbar.setNavigationIcon(getLeftMenuIcon());
         }
