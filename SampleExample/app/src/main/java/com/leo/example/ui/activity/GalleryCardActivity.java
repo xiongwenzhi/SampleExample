@@ -1,6 +1,9 @@
 package com.leo.example.ui.activity;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.v4.view.CustomViewPager;
+import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,7 +18,7 @@ import com.leolibrary.ui.base.activity.BaseActivity;
 /**
  * Created by leo on 16/5/20.
  */
-public class GalleryCardActivity extends BaseActivity {
+public class GalleryCardActivity extends BaseActivity implements CustomViewPager.OnPageChangeListener {
     private PagerViewAdapter adapter;
     private ActivityCardGalleryBinding binding;
 
@@ -29,6 +32,7 @@ public class GalleryCardActivity extends BaseActivity {
         //初始化ViewPager
         boolean is3D = getIntent().getBooleanExtra(Constans.IS_3D, false);
         adapter = new PagerViewAdapter(this);
+        binding.viewPager.addOnPageChangeListener(this);
         binding.viewPager.setPageTransformer(true, new ZoomCardPageTransformer(binding.viewPager, is3D));
         binding.viewPager.setOffscreenPageLimit(5);
     }
@@ -55,5 +59,22 @@ public class GalleryCardActivity extends BaseActivity {
         adapter.addAll(TestDataUtil.getImageModel(R.layout.item_card_gallery_view));
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setCurrentItem(adapter.size() / 2);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            binding.llLayout.invalidate();
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

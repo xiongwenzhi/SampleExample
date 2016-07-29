@@ -21,7 +21,7 @@
             <com.leo.tablayout.SlidingTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 app:selected_indicator_height="1dp"
                 app:selected_indicator_width="50dp" />

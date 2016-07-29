@@ -1,6 +1,8 @@
 package com.leo.example.ui.activity;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.v4.view.CustomViewPager;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,7 @@ import rx.functions.Action1;
 /**
  * Viewpager 实现Gallery画廊效果
  **/
-public class ViewPageGalleryActivity extends BaseActivity {
+public class ViewPageGalleryActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ActivityViewpagerGalleryBinding binding;
     private GalleryPageAdapter adapter;
     private ArrayList<SubjectsInfo> list = new ArrayList<>();
@@ -39,6 +41,7 @@ public class ViewPageGalleryActivity extends BaseActivity {
         //初始化ViewPager
         adapter = new GalleryPageAdapter(list, ViewPageGalleryActivity.this, R.layout.item_view);
         binding.viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.addOnPageChangeListener(this);
         binding.viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
     }
 
@@ -70,4 +73,20 @@ public class ViewPageGalleryActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            binding.llLayout.invalidate();
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }
