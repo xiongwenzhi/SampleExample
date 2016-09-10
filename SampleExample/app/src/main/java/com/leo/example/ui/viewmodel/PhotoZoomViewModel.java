@@ -10,6 +10,7 @@ import com.leolibrary.callback.LayoutId;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.functions.Action1;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
@@ -18,6 +19,12 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class PhotoZoomViewModel implements LayoutId {
     private ObservableField<String> imageUrl = new ObservableField<>();
+    private Action1<View> action1;
+
+    public PhotoZoomViewModel(String imageUrl, Action1<View> action1) {
+        this.imageUrl.set(imageUrl);
+        this.action1 = action1;
+    }
 
     public PhotoZoomViewModel(String imageUrl) {
         this.imageUrl.set(imageUrl);
@@ -40,7 +47,9 @@ public class PhotoZoomViewModel implements LayoutId {
         return new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
             public void onPhotoTap(View view, float x, float y) {
-                ((Activity) view.getContext()).finish();
+                if (action1 != null) {
+                    action1.call(view);
+                }
             }
         };
     }
@@ -51,10 +60,10 @@ public class PhotoZoomViewModel implements LayoutId {
      * @param infoViewModels
      * @return
      */
-    public static List<PhotoZoomViewModel> toViewModel(List<ItemSubjectsInfoViewModel> infoViewModels) {
+    public static List<PhotoZoomViewModel> toViewModel(List<ItemSubjectsInfoViewModel> infoViewModels, Action1<View> action1) {
         List<PhotoZoomViewModel> viewModels = new ArrayList<>();
         for (ItemSubjectsInfoViewModel viewModel : infoViewModels) {
-            viewModels.add(new PhotoZoomViewModel(viewModel.getImageUrl().get()));
+            viewModels.add(new PhotoZoomViewModel(viewModel.getImageUrl().get(), action1));
         }
         return viewModels;
     }

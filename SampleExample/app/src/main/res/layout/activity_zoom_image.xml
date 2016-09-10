@@ -31,14 +31,21 @@
             android:id="@+id/fly_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/black"
+            android:clickable="true"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="invisible">
+
+            <View
+                android:id="@+id/view_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/black" />
 
             <com.leo.example.wdight.HackyViewPager
                 android:id="@+id/vp_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:clickable="true" />
         </FrameLayout>
     </FrameLayout>
 
