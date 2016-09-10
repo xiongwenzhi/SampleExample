@@ -1,27 +1,32 @@
 package com.leo.example.ui.viewmodel;
 
-import android.content.Context;
-import android.view.LayoutInflater;
+import android.databinding.BaseObservable;
+import android.databinding.ObservableField;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.leo.example.R;
 import com.leo.example.info.ImageInfo;
+import com.leo.example.util.ToastUtil;
 import com.leolibrary.callback.LayoutId;
-import com.leolibrary.utils.image.PhotoLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by leo on 16/5/19.
  * 图片ViewModel
  */
-public class Image3DModel implements LayoutId {
+public class Image3DModel extends BaseObservable implements LayoutId {
     private ImageInfo imageInfo;
     private int layoutId = -1;
+    private ObservableField<String> title = new ObservableField<>();
+    private ObservableField<String> imageUrl = new ObservableField<>();
 
     public Image3DModel(ImageInfo imageInfo, int layoutId) {
         this.imageInfo = imageInfo;
         this.layoutId = layoutId;
+        this.title.set(imageInfo.getTitle());
+        this.imageUrl.set(imageInfo.getImageUrl());
     }
 
     @Override
@@ -32,13 +37,47 @@ public class Image3DModel implements LayoutId {
         return layoutId;
     }
 
-    @Override
-    public View getView(Context context) {
-        View view = LayoutInflater.from(context).inflate(getItemLayoutId(), null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.iv_movie);
-        TextView title = (TextView) view.findViewById(R.id.tv_title);
-        title.setText(imageInfo.getTitle());
-        PhotoLoader.display(context, imageView, imageInfo.getImageUrl(), context.getResources().getDrawable(R.mipmap.ic_loading));
-        return view;
+    public ObservableField<String> getTitle() {
+        return title;
+    }
+
+    public void setTitle(ObservableField<String> title) {
+        this.title = title;
+    }
+
+    public ObservableField<String> getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(ObservableField<String> imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public ImageInfo getImageInfo() {
+        return imageInfo;
+    }
+
+    public void setImageInfo(ImageInfo imageInfo) {
+        this.imageInfo = imageInfo;
+    }
+
+    /**
+     * 图片测试数据
+     */
+    public static List<Image3DModel> getImageModel(String[] images, int layoutId) {
+        List<Image3DModel> list = new ArrayList<>();
+        for (int i = 0; i < images.length; i++) {
+            list.add(new Image3DModel(new ImageInfo(String.valueOf(i + 1), images[i]), layoutId));
+        }
+        return list;
+    }
+
+    public View.OnClickListener onClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showMessage(v.getContext(), title.get());
+            }
+        };
     }
 }

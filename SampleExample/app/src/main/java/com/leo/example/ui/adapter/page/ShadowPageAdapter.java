@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 
+import com.leo.example.R;
 import com.leo.example.ui.Fragment.ShadowsFragment;
 
 /**
@@ -26,10 +27,15 @@ public class ShadowPageAdapter extends FragmentPagerAdapter {
 
     private ShadowsFragment getFragment(int position) {
         ShadowsFragment fragment = fragmentSparseArray.get(position);
-        if (fragment == null) {
-            fragment = ShadowsFragment.getInstance(position);
-            fragmentSparseArray.put(position, fragment);
+        if (fragment != null) {
+            return fragment;
         }
+        if (position == 0) {
+            fragment = ShadowsFragment.getInstance(R.layout.item_shadow_shape);
+        } else {
+            fragment = ShadowsFragment.getInstance(R.layout.item_shadow_cardview);
+        }
+        fragmentSparseArray.put(position, fragment);
         return fragment;
     }
 

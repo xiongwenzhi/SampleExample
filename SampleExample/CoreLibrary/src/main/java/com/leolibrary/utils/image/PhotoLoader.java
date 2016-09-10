@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.leolibrary.R;
+import com.leolibrary.ui.base.BaseContext;
+import com.leolibrary.utils.LruCacheUtils;
 
 import java.io.File;
 
@@ -150,5 +153,28 @@ public class PhotoLoader {
                 .placeholder(def)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);
+    }
+
+
+    /**
+     * 带加载提示并缓存Bitmap的加载图片方法
+     *
+     * @param imageView
+     * @param placeHolder
+     * @param url
+     */
+    public static void displayImageLruCache(final ImageView imageView, final String url, Drawable placeHolder) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .asBitmap()//强制转换Bitmap
+                .diskCacheStrategy(DiskCacheStrategy.NONE)//default
+                .placeholder(placeHolder == null ? BaseContext.getAppContext().getResources().getDrawable(R.drawable.shape_gradient) : placeHolder)
+                .into(new BitmapImageViewTarget(imageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        super.setResource(resource);
+                        LruCacheUtils.getInstance().addBitmapToMemoryCache(url, resource);
+                    }
+                });
     }
 }

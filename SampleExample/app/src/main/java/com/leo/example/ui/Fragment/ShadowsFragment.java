@@ -11,6 +11,7 @@ import com.leo.example.databinding.FragmentShadowBinding;
 import com.leo.example.dto.ListDTO;
 import com.leo.example.info.SubjectsInfo;
 import com.leo.example.ui.adapter.list.ShadowListAdapter;
+import com.leo.example.ui.viewmodel.ItemSubjectsInfoViewModel;
 import com.leo.example.util.DouBanApiUtil;
 import com.leolibrary.ui.base.Fragment.BaseFragment;
 
@@ -22,12 +23,12 @@ import rx.functions.Action1;
  */
 public class ShadowsFragment extends BaseFragment {
     private FragmentShadowBinding binding;
-    public int postion;
+    public int layoutId;
     private ShadowListAdapter shadowListAdapter;
 
-    public static ShadowsFragment getInstance(int postion) {
+    public static ShadowsFragment getInstance(int layoutId) {
         ShadowsFragment fragment = new ShadowsFragment();
-        fragment.setPostion(postion);
+        fragment.setLayoutId(layoutId);
         return fragment;
     }
 
@@ -37,8 +38,8 @@ public class ShadowsFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    public void setPostion(int postion) {
-        this.postion = postion;
+    public void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class ShadowsFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        shadowListAdapter = new ShadowListAdapter(getContext(), postion);
+        shadowListAdapter = new ShadowListAdapter(getContext());
         binding.rvShadow.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvShadow.setAdapter(shadowListAdapter);
     }
@@ -58,7 +59,7 @@ public class ShadowsFragment extends BaseFragment {
         DouBanApiUtil.LoadRepoData(getContext(), new Action1<ListDTO<SubjectsInfo>>() {
             @Override
             public void call(ListDTO<SubjectsInfo> subjectsInfoListDTO) {
-                shadowListAdapter.addAll(subjectsInfoListDTO.getList());
+                shadowListAdapter.addAll(ItemSubjectsInfoViewModel.toViewModel(subjectsInfoListDTO.getList(),layoutId));
                 shadowListAdapter.notifyDataSetChanged();
             }
         });

@@ -10,6 +10,16 @@ import android.support.v7.widget.RecyclerView;
  */
 public class BaseDataViewHodler<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
     private B binding;
+    private Object data;
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+        this.binding.setVariable(BR.data,data);
+    }
 
     public BaseDataViewHodler(B binding) {
         super(binding.getRoot());
@@ -20,3 +30,4 @@ public class BaseDataViewHodler<B extends ViewDataBinding> extends RecyclerView.
         return binding;
     }
 }
+

@@ -1,6 +1,7 @@
 apply from: '../config/sdkVersion.gradle'
 apply from: '../config/library.gradle'
 apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
 
 dependencies {
     Map<String, String> libs = rootProject.ext.libs

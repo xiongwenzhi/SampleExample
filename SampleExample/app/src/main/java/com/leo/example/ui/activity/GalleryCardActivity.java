@@ -13,18 +13,19 @@ import com.leo.example.TestUtil.TestDataUtil;
 import com.leo.example.databinding.ActivityCardGalleryBinding;
 import com.leo.example.ui.adapter.page.PagerViewAdapter;
 import com.leo.example.ui.animation.ZoomCardPageTransformer;
+import com.leo.example.ui.viewmodel.Image3DModel;
 import com.leolibrary.ui.base.activity.BaseActivity;
 
 /**
  * Created by leo on 16/5/20.
  */
-public class GalleryCardActivity extends BaseActivity implements CustomViewPager.OnPageChangeListener {
+public class GalleryCardActivity extends BaseActivity<ActivityCardGalleryBinding> implements CustomViewPager.OnPageChangeListener {
     private PagerViewAdapter adapter;
     private ActivityCardGalleryBinding binding;
 
     @Override
-    public void beforInitView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_card_gallery);
+    public ActivityCardGalleryBinding beforInitView() {
+        return DataBindingUtil.setContentView(this, R.layout.activity_card_gallery);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class GalleryCardActivity extends BaseActivity implements CustomViewPager
      * 添加测试数据
      */
     private void LoadData() {
-        adapter.addAll(TestDataUtil.getImageModel(R.layout.item_card_gallery_view));
+        adapter.addAll(Image3DModel.getImageModel(TestDataUtil.images, R.layout.item_card_gallery_view));
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setCurrentItem(adapter.size() / 2);
     }

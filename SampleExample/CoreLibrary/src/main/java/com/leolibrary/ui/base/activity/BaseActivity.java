@@ -1,5 +1,6 @@
 package com.leolibrary.ui.base.activity;
 
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +15,15 @@ import com.leolibrary.utils.SystemUtil;
  * Created by leo on 16/5/14.
  * 基类
  */
-public abstract class BaseActivity extends AppCompatActivity implements InitRes {
+public abstract class BaseActivity<V extends ViewDataBinding> extends AppCompatActivity implements InitRes<V> {
     private Toolbar toolbar;
+    protected V binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        beforInitView();
+        binding = beforInitView();
+        binding.getRoot().setFitsSystemWindows(true);
         SystemUtil.setStatusDrawable(this, getResources().getDrawable(R.drawable.shape_gradient));
         initToolbar();
         initView();
@@ -65,5 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity implements InitRes 
         };
     }
 
-
+    public V getBinding() {
+        return binding;
+    }
 }

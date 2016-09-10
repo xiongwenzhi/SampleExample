@@ -3,11 +3,14 @@ package com.leo.example.info;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 
+import com.leo.example.R;
+import com.leolibrary.callback.LayoutId;
+
 /**
  * Created by leo on 16/5/14.
  * Activity - 实体类
  */
-public class ActivityInfo extends BaseObservable {
+public class ActivityInfo extends BaseObservable implements LayoutId{
     private ObservableField<String> name;
     private ObservableField<Class> mClass;
     private ObservableField<String> className;
@@ -46,4 +49,8 @@ public class ActivityInfo extends BaseObservable {
                 '}';
     }
 
+    @Override
+    public int getItemLayoutId() {
+        return R.layout.item_rv_list;
+    }
 }

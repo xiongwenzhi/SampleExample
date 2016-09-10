@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.leo.example.info.SubjectsInfo" />
+            type="com.leo.example.ui.viewmodel.ItemSubjectsInfoViewModel" />
     </data>
 
     <LinearLayout
@@ -21,6 +21,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
+            android:onClick="@{data.onClick()}"
             app:cardCornerRadius="3dp"
             app:cardMaxElevation="1px"
             app:contentPadding="0dp">
@@ -41,7 +42,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_gravity="center_vertical"
                         android:scaleType="fitXY"
-                        android:src='@{data.images.large}'
+                        android:src='@{data.imageUrl}'
                         app:riv_corner_radius="3dp"
                         app:riv_oval="false" />
 

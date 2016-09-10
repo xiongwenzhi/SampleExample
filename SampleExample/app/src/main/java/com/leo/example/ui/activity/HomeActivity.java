@@ -13,13 +13,13 @@ import com.leolibrary.ui.base.activity.BaseActivity;
 /**
  * 主界面
  */
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
     private MainBindingAdapter adapter;
-    private ActivityHomeBinding binding;
+
 
     @Override
-    public void beforInitView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+    public ActivityHomeBinding beforInitView() {
+        return DataBindingUtil.setContentView(this, R.layout.activity_home);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class HomeActivity extends BaseActivity {
         adapter.add(new ActivityInfo("3D画廊效果实现", GalleryCardActivity.class));
         adapter.add(new ActivityInfo("QQ天气星座卡片效果", GalleryCardActivity.class));
         adapter.add(new ActivityInfo("支持自定义数据过滤规则的AutoCompleteTextView-Demo", AutoCompleteActivity.class));
-        adapter.add(new ActivityInfo("Bitmap测试", BitmapActivity.class));
+        adapter.add(new ActivityInfo("朋友圈图片查看缩放效果", ZoomImageActivity.class));
         adapter.notifyDataSetChanged();
     }
 

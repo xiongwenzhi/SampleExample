@@ -13,13 +13,12 @@ import com.leolibrary.ui.base.activity.BaseActivity;
  * Created by leo on 16/5/14.
  * 阴影效果Activity
  */
-public class ShadowActivity extends BaseActivity {
-    private ActivityShadowBinding binding;
+public class ShadowActivity extends BaseActivity<ActivityShadowBinding> {
     private ShadowPageAdapter shadowPageAdapter;
 
     @Override
-    public void beforInitView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_shadow);
+    public ActivityShadowBinding beforInitView() {
+        return DataBindingUtil.setContentView(this, R.layout.activity_shadow);
     }
 
     @Override

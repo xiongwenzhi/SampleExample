@@ -9,12 +9,11 @@ import com.leolibrary.ui.base.activity.BaseActivity;
 /**
  * Created by leo on 16/7/1.
  */
-public class BitmapActivity extends BaseActivity {
-    private ActivityBitmapBinding binding;
+public class BitmapActivity extends BaseActivity<ActivityBitmapBinding> {
 
     @Override
-    public void beforInitView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_bitmap);
+    public ActivityBitmapBinding beforInitView() {
+        return DataBindingUtil.setContentView(this, R.layout.activity_bitmap);
     }
 
     @Override

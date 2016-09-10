@@ -75,6 +75,15 @@ public class SubjectsInfo {
 
     @SerializedName("directors")
     private List<DirectorsInfo> directors;
+    private int imageHeight;
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
 
     public RatingInfo getRating() {
         return rating;

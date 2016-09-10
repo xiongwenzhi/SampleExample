@@ -26,14 +26,13 @@ import rx.functions.Action1;
 /**
  * Viewpager 实现Gallery画廊效果
  **/
-public class ViewPageGalleryActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
-    private ActivityViewpagerGalleryBinding binding;
+public class ViewPageGalleryActivity extends BaseActivity<ActivityViewpagerGalleryBinding> implements ViewPager.OnPageChangeListener {
     private GalleryPageAdapter adapter;
     private ArrayList<SubjectsInfo> list = new ArrayList<>();
 
     @Override
-    public void beforInitView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_viewpager_gallery);
+    public ActivityViewpagerGalleryBinding beforInitView() {
+        return DataBindingUtil.setContentView(this, R.layout.activity_viewpager_gallery);
     }
 
     @Override

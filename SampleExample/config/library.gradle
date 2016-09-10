@@ -30,6 +30,7 @@ ext {
              */
             rxjava               : 'io.reactivex:rxjava:1.1.6',
             rxandroid            : 'io.reactivex:rxandroid:1.2.1',
+            photoview            : 'com.github.chrisbanes.photoview:library:1.2.4',
 
     ]
 }

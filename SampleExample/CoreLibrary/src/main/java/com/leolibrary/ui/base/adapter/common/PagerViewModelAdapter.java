@@ -1,12 +1,16 @@
 package com.leolibrary.ui.base.adapter.common;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.leolibrary.callback.LayoutId;
 import com.leolibrary.callback.ListCallback;
+import com.leolibrary.ui.base.viewhodler.BaseDataViewHodler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +19,15 @@ import java.util.List;
  * Created by leo on 16/5/19.
  * 基类
  */
-public abstract class PagerViewModelAdapter<T extends LayoutId> extends PagerAdapter implements ListCallback<T> {
+public abstract class PagerViewModelAdapter<B extends ViewDataBinding, T extends LayoutId> extends PagerAdapter implements ListCallback<T> {
     private List<T> data;
     private Context context;
+    private LayoutInflater inflater;
 
     public PagerViewModelAdapter(Context context) {
         this.context = context;
         data = new ArrayList<>();
+        inflater = LayoutInflater.from(context);
     }
 
     public List<T> getData() {
@@ -45,9 +51,12 @@ public abstract class PagerViewModelAdapter<T extends LayoutId> extends PagerAda
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = getItemView(container, position);
-        container.addView(view);
-        return view;
+        B b = DataBindingUtil.inflate(inflater, get(position).getItemLayoutId(), container, false);
+        BaseDataViewHodler<B> hodler = new BaseDataViewHodler<>(b);
+        hodler.setData(get(position));
+        onBindDataToView(hodler, position, get(position));
+        container.addView(b.getRoot());
+        return b.getRoot();
     }
 
     @Override
@@ -56,7 +65,6 @@ public abstract class PagerViewModelAdapter<T extends LayoutId> extends PagerAda
         container.removeView(view);
     }
 
-    public abstract View getItemView(ViewGroup container, int position);
 
     @Override
     public T get(int position) {
@@ -92,5 +100,7 @@ public abstract class PagerViewModelAdapter<T extends LayoutId> extends PagerAda
     public int size() {
         return data.size();
     }
+
+    public abstract void onBindDataToView(BaseDataViewHodler<B> holder, int position, T t);
 
 }

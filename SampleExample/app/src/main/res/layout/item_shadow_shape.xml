@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.leo.example.info.SubjectsInfo" />
+            type="com.leo.example.ui.viewmodel.ItemSubjectsInfoViewModel" />
     </data>
 
     <FrameLayout
@@ -16,7 +16,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/shape_card_bg_g">
+        android:background="@drawable/shape_card_bg_g"
+        android:onClick="@{data.onClick()}">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_vertical"
                     android:scaleType="fitXY"
-                    android:src='@{data.images.large}'
+                    android:src='@{data.imageUrl}'
                     app:riv_corner_radius_top_left="3dp"
                     app:riv_corner_radius_top_right="3dp"
                     app:riv_oval="false" />

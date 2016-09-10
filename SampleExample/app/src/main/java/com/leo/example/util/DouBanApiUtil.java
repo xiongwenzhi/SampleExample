@@ -36,7 +36,10 @@ public class DouBanApiUtil {
 
 
     /**
-     * 获取豆瓣Api数据
+     * 获取正在热映影片数据
+     *
+     * @param action1
+     * @param context
      */
     public static void LoadRepoData(final Context context, Action1<ListDTO<SubjectsInfo>> action1) {
         LoadingDialog.showLoadding(context);

@@ -4,10 +4,14 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.leolibrary.callback.BindingListCallback;
+import com.leolibrary.callback.LayoutId;
 import com.leolibrary.ui.base.viewhodler.BaseDataViewHodler;
 
 import java.util.ArrayList;
@@ -18,10 +22,11 @@ import java.util.List;
  * Created by leo on 16/5/14.
  * 通用的adapter - 配合DataBinding使用
  */
-public abstract class BaseBindingListAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseDataViewHodler<B>> implements BindingListCallback<T, B> {
+public abstract class BaseBindingListAdapter<T extends LayoutId, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseDataViewHodler<B>> implements BindingListCallback<T, B> {
     private List<T> data;
     private Context context;
     private LayoutInflater mInflater;
+    private SparseArray<View> views = new SparseArray<>();
 
     public BaseBindingListAdapter(Context context) {
         this.context = context;
@@ -32,12 +37,15 @@ public abstract class BaseBindingListAdapter<T, B extends ViewDataBinding> exten
     @Override
     public BaseDataViewHodler<B> onCreateViewHolder(ViewGroup parent, int viewType) {
         B bing = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
+        Log.e("BaseDataViewHodler:viewType:", viewType + "");
         BaseDataViewHodler viewHodler = new BaseDataViewHodler(bing);
         return viewHodler;
     }
 
     @Override
     public void onBindViewHolder(BaseDataViewHodler<B> holder, int position) {
+        holder.setData(get(position));
+        views.put(position, holder.getBinding().getRoot());
         onBindDataToView(holder, position, get(position));
         onBindListener(holder, position, get(position));
     }
@@ -93,15 +101,17 @@ public abstract class BaseBindingListAdapter<T, B extends ViewDataBinding> exten
 
     @Override
     public int getItemViewType(int position) {
-        return getItemLayoutId(position);
+        return get(position).getItemLayoutId();
     }
-
-    protected abstract int getItemLayoutId(int position);
 
     public abstract void onBindDataToView(BaseDataViewHodler<B> holder, int position, T t);
 
     public Context getContext() {
         return context;
+    }
+
+    public View getItemView(int position) {
+        return views.get(position);
     }
 
 }

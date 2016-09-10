@@ -21,11 +21,6 @@ public class MainBindingAdapter extends BaseBindingListAdapter<ActivityInfo, Ite
         super(context);
     }
 
-    @Override
-    protected int getItemLayoutId(int position) {
-        return R.layout.item_rv_list;
-    }
-
 
     @Override
     public void onBindDataToView(BaseDataViewHodler<ItemRvListBinding> holder, int position, ActivityInfo activityInfo) {

@@ -1,6 +1,7 @@
 package com.leo.example.httpservice;
 
 
+import com.leo.example.config.APIConstants;
 import com.leo.example.dto.ListDTO;
 import com.leo.example.info.SubjectsInfo;
 
@@ -15,11 +16,21 @@ import rx.Observable;
  */
 public interface DouBanService {
 
-    // 获取库, 获取的是数组
-    @GET("v2/movie/in_theaters")
+    /**
+     * 获取正在热映影片数据
+     *
+     * @param count
+     * @return
+     */
+    @GET(APIConstants.API_IN_THEATERS)
     Observable<ListDTO<SubjectsInfo>> getRepoData(@Query("count") int count);
 
-    // 获取库, 获取的是数组
-    @GET("v2/movie/top250")
+    /**
+     * 获取前250影片数据
+     *
+     * @param count
+     * @return
+     */
+    @GET(APIConstants.API_TOP_250)
     Call<ListDTO<SubjectsInfo>> getTop250(@Query("count") String count);
 }

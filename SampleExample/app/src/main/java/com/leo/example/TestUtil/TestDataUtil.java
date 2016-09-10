@@ -32,14 +32,4 @@ public class TestDataUtil {
                     "http://pic1.nipic.com/2008-10-30/200810309416546_2.jpg"
             };
 
-    /**
-     * 图片测试数据
-     */
-    public static List<Image3DModel> getImageModel(int layoutId) {
-        List<Image3DModel> list = new ArrayList<>();
-        for (int i = 0; i < images.length; i++) {
-            list.add(new Image3DModel(new ImageInfo(String.valueOf(i + 1), images[i]), layoutId));
-        }
-        return list;
-    }
 }

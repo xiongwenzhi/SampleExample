@@ -5,4 +5,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':CoreLibrary')
     compile project(':SlidingTabLayoutLib')
+    compile libs.photoview
 }

@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 
 import com.leo.example.R;
 import com.leo.example.databinding.ActivityAutoCompleteBinding;
+import com.leo.example.databinding.ActivityHomeBinding;
 import com.leo.example.info.PersonInfo;
 import com.leo.example.ui.adapter.list.PersonFilterAdapter;
 import com.leolibrary.ui.base.activity.BaseActivity;
@@ -14,24 +15,24 @@ import com.leolibrary.ui.base.activity.BaseActivity;
  * Created by leo on 16/5/24.
  * 支持自定义数据过滤规则的 AutoCompleteTextView demo
  */
-public class AutoCompleteActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-    private ActivityAutoCompleteBinding binding;
+public class AutoCompleteActivity extends BaseActivity<ActivityAutoCompleteBinding> implements AdapterView.OnItemClickListener {
     private PersonFilterAdapter filterAdapter;
     private String[] name = {"张三", "张三峰", "李四", "历史",
             "王五", "测试", "哈哈哈", "呵呵呵",
             "你好呀", "网测", "啦啦啦啦", "yes"};
 
     @Override
-    public void beforInitView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_auto_complete);
+    public ActivityAutoCompleteBinding beforInitView() {
+        return DataBindingUtil.setContentView(this, R.layout.activity_auto_complete);
     }
+
 
     @Override
     public void initView() {
         //设置多少个字开始显示下拉列表
         binding.tvSeach.setThreshold(1);
         //初始化adapter,R.layout.item_complete_textview为下拉列表显示的布局文件
-        filterAdapter = new PersonFilterAdapter(this,R.layout.item_complete_text);
+        filterAdapter = new PersonFilterAdapter(this, R.layout.item_complete_text);
         binding.tvSeach.setAdapter(filterAdapter);
     }
 
