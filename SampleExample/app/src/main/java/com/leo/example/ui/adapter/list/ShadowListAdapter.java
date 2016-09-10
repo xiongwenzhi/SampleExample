@@ -31,7 +31,7 @@ public class ShadowListAdapter extends BaseBindingListAdapter<ItemSubjectsInfoVi
 
     @Override
     public void onBindDataToView(BaseDataViewHodler<ViewDataBinding> holder, int position, ItemSubjectsInfoViewModel itemSubjectsInfoViewModel) {
-
+        itemSubjectsInfoViewModel.setHolder(holder);
     }
 
     @Override
