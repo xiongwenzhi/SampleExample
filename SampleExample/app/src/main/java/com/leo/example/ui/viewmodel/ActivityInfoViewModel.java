@@ -1,8 +1,12 @@
-package com.leo.example.info;
+package com.leo.example.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
+import android.text.TextUtils;
+import android.view.View;
 
+import com.leo.example.Constans;
 import com.leo.example.R;
 import com.leolibrary.callback.LayoutId;
 
@@ -10,12 +14,12 @@ import com.leolibrary.callback.LayoutId;
  * Created by leo on 16/5/14.
  * Activity - 实体类
  */
-public class ActivityInfo extends BaseObservable implements LayoutId{
+public class ActivityInfoViewModel extends BaseObservable implements LayoutId {
     private ObservableField<String> name;
     private ObservableField<Class> mClass;
     private ObservableField<String> className;
 
-    public ActivityInfo(String name, Class mClass) {
+    public ActivityInfoViewModel(String name, Class mClass) {
         this.name = new ObservableField<>(name);
         this.mClass = new ObservableField<>(mClass);
         this.className = new ObservableField<>(mClass.getName());
@@ -41,12 +45,20 @@ public class ActivityInfo extends BaseObservable implements LayoutId{
         return mClass.get();
     }
 
-    @Override
-    public String toString() {
-        return "ActivityInfo{" +
-                "name='" + name + '\'' +
-                ", mClass=" + mClass +
-                '}';
+
+    public View.OnClickListener onClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.equals(getName(), "3D画廊效果实现")) {
+                    Intent intent = new Intent(v.getContext(), getmClass());
+                    intent.putExtra(Constans.IS_3D, true);
+                    v.getContext().startActivity(intent);
+                } else {
+                    v.getContext().startActivity(new Intent(v.getContext(), getmClass()));
+                }
+            }
+        };
     }
 
     @Override
