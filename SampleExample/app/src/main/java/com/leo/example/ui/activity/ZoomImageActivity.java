@@ -330,6 +330,9 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
                 return;
             }
             mCurrentItem = position;
+            if (shadowListAdapter.getItemView(position) != null) {
+                return;
+            }
             //因实现图片归位的动画效果,需要先测量View在屏幕中的坐标,所以需要保证RecyclerView中的item必须显示在屏幕中
             //所以图片预览切换图片时,需要同时滑动RecyclerView
             GridLayoutManager layoutManager = (GridLayoutManager) binding.rvView.getLayoutManager();
