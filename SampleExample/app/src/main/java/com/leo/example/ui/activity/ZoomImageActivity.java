@@ -339,6 +339,7 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
 
     @Override
     public void onBackPressed() {
+        //如果显示的是图片预览,则关闭图片预览效果
         if (binding.flyLayout.getVisibility() == View.VISIBLE) {
             actionHide.call(null);
             return;

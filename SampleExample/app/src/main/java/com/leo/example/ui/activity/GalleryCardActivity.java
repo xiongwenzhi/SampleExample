@@ -18,10 +18,10 @@ import com.leolibrary.ui.base.activity.BaseActivity;
 
 /**
  * Created by leo on 16/5/20.
+ * 画廊效果
  */
 public class GalleryCardActivity extends BaseActivity<ActivityCardGalleryBinding> implements CustomViewPager.OnPageChangeListener {
     private PagerViewAdapter adapter;
-    private ActivityCardGalleryBinding binding;
 
     @Override
     public ActivityCardGalleryBinding beforInitView() {
