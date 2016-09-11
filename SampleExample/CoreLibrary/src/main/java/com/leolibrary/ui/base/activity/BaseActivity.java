@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.leolibrary.R;
 import com.leolibrary.utils.SystemUtil;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 
 /**
@@ -18,13 +19,14 @@ import com.leolibrary.utils.SystemUtil;
 public abstract class BaseActivity<V extends ViewDataBinding> extends AppCompatActivity implements InitRes<V> {
     private Toolbar toolbar;
     protected V binding;
+    private SystemBarTintManager systemBarTintManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = beforInitView();
         binding.getRoot().setFitsSystemWindows(true);
-        SystemUtil.setStatusDrawable(this, getResources().getDrawable(R.drawable.shape_gradient));
+        systemBarTintManager = SystemUtil.setStatusDrawable(this, getResources().getDrawable(R.drawable.shape_gradient));
         initToolbar();
         initView();
         initListener();
@@ -70,5 +72,9 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends AppCompatA
 
     public V getBinding() {
         return binding;
+    }
+
+    public SystemBarTintManager getSystemBarTintManager() {
+        return systemBarTintManager;
     }
 }

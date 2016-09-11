@@ -40,16 +40,18 @@ import rx.functions.Action1;
  * 仿朋友圈图片查看效果
  */
 public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
+    private static final int mDuration = 400;
     private ZoomImagePagerAdapter zoomImagePagerAdapter;
     private ShadowListAdapter shadowListAdapter;
+    private DecelerateInterpolator interpolator;
     private int pading = 0;
     private int imageHeight = 0;
     private int screenWidth;
     private int mCurrentItem;
     private Rect finalBounds;
     private Point globalOffset;
-    private boolean isShow = false;
-    private AnimatorSet curAnimator;
+    private AnimatorSet animator;
+    private int mRow = 3;//列数
 
     @Override
     public ActivityZoomImageBinding beforInitView() {
@@ -58,27 +60,37 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
 
     @Override
     public void initView() {
-        imageHeight = (SystemUtil.getScreenWidth(this) - pading * 2 * 4) / 3;
+        //用于测量View在屏幕中的坐标
+        finalBounds = new Rect();
+        globalOffset = new Point();
+
+        //根据屏幕尺寸及item边距,动态适配item宽高,保证item在不同的分辨率下都为正方形
         pading = Dimens.getDimensionPixelOffset(R.dimen.dp_4);
-        shadowListAdapter = new ShadowListAdapter(this);
+        screenWidth = SystemUtil.getScreenWidth(this);
+        imageHeight = (screenWidth - pading * 2 * 4) / mRow;
+
+        //init ViewPager
         zoomImagePagerAdapter = new ZoomImagePagerAdapter(this);
-        binding.rvView.addItemDecoration(new SpacesItemDecoration(pading, 3));
-        binding.rvView.setLayoutManager(new GridLayoutManager(this, 3));
-        binding.rvView.setAdapter(shadowListAdapter);
         binding.vpPager.setAdapter(zoomImagePagerAdapter);
         binding.vpPager.addOnPageChangeListener(changeAdapter);
         binding.vpPager.setOffscreenPageLimit(3);
+
+        //init RecyclerView
+        shadowListAdapter = new ShadowListAdapter(this);
+        binding.rvView.addItemDecoration(new SpacesItemDecoration(pading, mRow));
+        binding.rvView.setLayoutManager(new GridLayoutManager(this, mRow));
+        binding.rvView.setAdapter(shadowListAdapter);
+
+        //init interpolator
+        interpolator = new DecelerateInterpolator();
     }
 
     @Override
     public void initData() {
-        finalBounds = new Rect();
-        globalOffset = new Point();
-        screenWidth = SystemUtil.getScreenWidth(this);
         DouBanApiUtil.LoadRepoData(this, new Action1<ListDTO<SubjectsInfo>>() {
             @Override
             public void call(ListDTO<SubjectsInfo> subjectsInfoListDTO) {
-                shadowListAdapter.addAll(ItemSubjectsInfoViewModel.toViewModel(subjectsInfoListDTO.getList(), R.layout.item_rv_image, imageHeight, actionShow()));
+                shadowListAdapter.addAll(ItemSubjectsInfoViewModel.toViewModel(subjectsInfoListDTO.getList(), R.layout.item_rv_image, imageHeight, actionShow));
                 shadowListAdapter.notifyDataSetChanged();
             }
         });
@@ -89,55 +101,28 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
 
     }
 
-
-    private Action1<Integer> actionShow() {
-        return new Action1<Integer>() {
-            @Override
-            public void call(Integer integer) {
-                showPhotoView(shadowListAdapter.getData(), integer.intValue(), ViewUtils.getViewGlobalRect(shadowListAdapter.getItemView(integer.intValue())));
-            }
-        };
-    }
-
-
-    private Action1<View> actionHide() {
-        return new Action1<View>() {
-            @Override
-            public void call(View view) {
-                doHidePhotos();
-            }
-        };
-    }
+    /**
+     * 显示大图预览
+     */
+    private Action1<Integer> actionShow = new Action1<Integer>() {
+        @Override
+        public void call(Integer integer) {
+            showPhotoView(shadowListAdapter.getData(), integer.intValue(), ViewUtils.getViewGlobalRect(shadowListAdapter.getItemView(integer.intValue())));
+        }
+    };
 
     /**
-     * 获取隐藏缩放比
+     * 隐藏图片预览界面
      *
-     * @param
-     * @param startBounds
+     * @return
      */
-    private float getHideRatio(Rect startBounds, ImageSizeInfo info) {
-        float ratio;
-        if (info == null) {
-            info = new ImageSizeInfo();
+    private Action1<View> actionHide = new Action1<View>() {
+        @Override
+        public void call(View view) {
+            Rect originBound = ViewUtils.getViewGlobalRect(shadowListAdapter.getItemView(mCurrentItem));
+            hidePhotoAnimator(originBound);
         }
-        if (info.getWidth() == 0 || info.getHeight() == 0) {
-            info.setWidth(binding.flyLayout.getWidth());
-            info.setHeight(binding.flyLayout.getHeight());
-        }
-        float scale = (float) screenWidth / info.getWidth();
-        if (info.getWidth() > info.getHeight()) {
-            ratio = RatioUtils.getHeightRatio(info, startBounds, scale);
-            if (ratio * info.getWidth() * scale < startBounds.width()) {
-                ratio = RatioUtils.getWidthRatio(info, startBounds, scale);
-            }
-        } else {
-            ratio = RatioUtils.getWidthRatio(info, startBounds, scale);
-            if (ratio * info.getHeight() * scale < startBounds.height()) {
-                ratio = RatioUtils.getHeightRatio(info, startBounds, scale);
-            }
-        }
-        return ratio;
-    }
+    };
 
 
     /**
@@ -145,16 +130,16 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
      *
      * @param photoData
      * @param position
+     * @param rect
      */
     public void showPhotoView(List<ItemSubjectsInfoViewModel> photoData, int position, Rect rect) {
         zoomImagePagerAdapter = new ZoomImagePagerAdapter(this);
-        zoomImagePagerAdapter.addAll(PhotoZoomViewModel.toViewModel(photoData, actionHide()));
+        zoomImagePagerAdapter.addAll(PhotoZoomViewModel.toViewModel(photoData, actionHide));
         binding.vpPager.setAdapter(zoomImagePagerAdapter);
         binding.vpPager.addOnPageChangeListener(changeAdapter);
         binding.vpPager.setCurrentItem(mCurrentItem = position);
         binding.vpPager.setLocked(zoomImagePagerAdapter.getCount() == 1);
         binding.flyLayout.getGlobalVisibleRect(finalBounds, globalOffset);
-        ViewHelper.setAlpha(binding.viewBg, 1);
         showPhotoAnimator(rect);
     }
 
@@ -165,132 +150,25 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
      * @param startBounds
      */
     private void showPhotoAnimator(Rect startBounds) {
-        isShow = true;
         startBounds.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
+        ViewHelper.setAlpha(binding.viewBg, 1);
+        binding.flyLayout.setVisibility(View.VISIBLE);
         float ratio = RatioUtils.getShowRatio(startBounds, finalBounds);
-        intiHideCalculate(startBounds, finalBounds, ratio);
+        calculateLocationRect(startBounds, finalBounds, ratio);
         binding.vpPager.setPivotX(0);
         binding.vpPager.setPivotY(0);
-        binding.flyLayout.setVisibility(View.VISIBLE);
-        AnimatorSet set = new AnimatorSet();
-        set.play(ObjectAnimator.ofFloat(binding.vpPager, View.X, startBounds.left, finalBounds.left))
+        animator = new AnimatorSet();
+        animator.play(ObjectAnimator.ofFloat(binding.vpPager, View.X, startBounds.left, finalBounds.left))
                 .with(ObjectAnimator.ofFloat(binding.vpPager, View.Y, startBounds.top, finalBounds.top))
                 .with(ObjectAnimator.ofFloat(binding.vpPager, View.SCALE_X, ratio, 1f))
                 .with(ObjectAnimator.ofFloat(binding.vpPager, View.SCALE_Y, ratio, 1f));
-        set.setDuration(400);
-        set.setInterpolator(new DecelerateInterpolator());
-        set.addListener(animatorListener);
-        set.start();
+        animator.setDuration(mDuration);
+        animator.setInterpolator(interpolator);
+        animator.addListener(showAnimatorListener);
+        animator.start();
     }
 
-
-    /**
-     * AnimatorListener
-     */
-    private Animator.AnimatorListener animatorListener = new AnimatorListenerAdapter() {
-        @Override
-        public void onAnimationEnd(Animator animation) {
-            animationEnd();
-        }
-
-        @Override
-        public void onAnimationStart(Animator animation) {
-            curAnimator = (AnimatorSet) animation;
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animation) {
-            animationEnd();
-        }
-    };
-
-
-    /**
-     * 隐藏图片预览
-     */
-    public void doHidePhotos() {
-        Rect originBound;
-        originBound = ViewUtils.getViewGlobalRect(shadowListAdapter.getItemView(mCurrentItem));
-        hidePhotoAnimator(originBound);
-    }
-
-
-    /**
-     * 动画结束执行回调
-     */
-    private void animationEnd() {
-        if (isShow) {
-            curAnimator = null;
-        } else {
-            onHidePhotoAnimationEnd();
-        }
-    }
-
-
-    /**
-     * 隐藏图片动画结束回调
-     */
-    private void onHidePhotoAnimationEnd() {
-        curAnimator = null;
-        binding.vpPager.clearAnimation();
-        binding.flyLayout.setVisibility(View.GONE);
-        zoomImagePagerAdapter.onDestoryPhotoView();
-        binding.vpPager.removeOnPageChangeListener(changeAdapter);
-        zoomImagePagerAdapter.getData().clear();
-    }
-
-    /**
-     * 隐藏图片预览
-     */
-    private ViewPager.OnPageChangeListener changeAdapter = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            if (position >= shadowListAdapter.size() || position == mCurrentItem) {
-                return;
-            }
-            mCurrentItem = position;
-            GridLayoutManager layoutManager = (GridLayoutManager) binding.rvView.getLayoutManager();
-            layoutManager.scrollToPositionWithOffset(position, 0);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-
-    };
-
-    /**
-     * 位置计算
-     */
-    private void intiHideCalculate(Rect startBounds, Rect finalBounds, float ratio) {
-        if ((float) finalBounds.width() / finalBounds.height() > (float) startBounds.width() / startBounds.height()) {
-            float startWidth = ratio * finalBounds.width();
-            float deltaWidth = (startWidth - startBounds.width()) / 2;
-            startBounds.left -= deltaWidth;
-            startBounds.right += deltaWidth;
-        } else {
-            // Extend start bounds vertically
-            float startHeight = ratio * finalBounds.height();
-            float deltaHeight = (startHeight - startBounds.height()) / 2;
-            startBounds.top -= deltaHeight;
-            startBounds.bottom += deltaHeight;
-            float startWidth = ratio * finalBounds.width();
-            float deltaWidth = (startWidth - startBounds.width()) / 2;
-            if (3 > 1 && LocationUtils.isRight(mCurrentItem, 3)) {
-                startBounds.left -= startWidth - startBounds.width();
-            } else if (!LocationUtils.isRight(mCurrentItem, 3) && !LocationUtils.isLeft(mCurrentItem, 3) || 3 == 1) {
-                startBounds.left -= deltaWidth;
-                startBounds.right += deltaWidth;
-            }
-        }
-    }
 
     /**
      * 隐藏照片查看界面
@@ -298,34 +176,171 @@ public class ZoomImageActivity extends BaseActivity<ActivityZoomImageBinding> {
      * @param originBound
      */
     private void hidePhotoAnimator(Rect originBound) {
-        isShow = false;
-        //如果展开动画没有展示完全就关闭，那么就停止展开动画进而执行退出动画
-        if (curAnimator != null) {
-            curAnimator.cancel();
+        //如果展开动画没有展示完全就关闭,执行退出动画
+        if (animator != null) {
+            animator.cancel();
         }
+        //将背景设为透明
         ViewHelper.setAlpha(binding.viewBg, 0);
+        //测量View位置,获取坐标参数
         binding.flyLayout.getGlobalVisibleRect(finalBounds, globalOffset);
         originBound.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
+        //将ViewPager的位置移动到屏幕中心
         binding.vpPager.setPivotX(0);
         binding.vpPager.setPivotY(0);
-        AnimatorSet set = new AnimatorSet();
+        animator = new AnimatorSet();
         float ratio = getHideRatio(originBound, zoomImagePagerAdapter.getImageSizeInfo(mCurrentItem));
-        intiHideCalculate(originBound, finalBounds, ratio);
-        set.play(ObjectAnimator.ofFloat(binding.vpPager, View.X, originBound.left).setDuration(100))
+        calculateLocationRect(originBound, finalBounds, ratio);
+        animator.play(ObjectAnimator.ofFloat(binding.vpPager, View.X, originBound.left))
                 .with(ObjectAnimator.ofFloat(binding.vpPager, View.Y, originBound.top))
                 .with(ObjectAnimator.ofFloat(binding.vpPager, View.SCALE_X, 1f, ratio))
                 .with(ObjectAnimator.ofFloat(binding.vpPager, View.SCALE_Y, 1f, ratio));
-        set.setDuration(400);
-        set.setInterpolator(new DecelerateInterpolator());
-        set.addListener(animatorListener);
-        set.start();
+        animator.setDuration(mDuration);
+        animator.setInterpolator(interpolator);
+        animator.addListener(hideAnimatorListener);
+        animator.start();
     }
+
+    /**
+     * show AnimatorListener
+     */
+    private AnimatorListenerAdapter showAnimatorListener = new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+            super.onAnimationStart(animation);
+            getSystemBarTintManager().setStatusBarTintDrawable(getResources().getDrawable(R.color.black));
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            animator = null;
+        }
+    };
+
+
+    /**
+     * show AnimatorListener
+     */
+    private AnimatorListenerAdapter hideAnimatorListener = new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+            super.onAnimationStart(animation);
+            getSystemBarTintManager().setStatusBarTintDrawable(getResources().getDrawable(R.drawable.shape_gradient));
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            onHidePhotoAnimationEnd();
+        }
+    };
+
+
+    /**
+     * 隐藏图片动画结束回调
+     */
+    private void onHidePhotoAnimationEnd() {
+        animator = null;
+        binding.vpPager.clearAnimation();
+        binding.flyLayout.setVisibility(View.GONE);
+        zoomImagePagerAdapter.onDestoryPhotoView();
+        binding.vpPager.removeOnPageChangeListener(changeAdapter);
+        zoomImagePagerAdapter.getData().clear();
+    }
+
+
+    /**
+     * 根据View的宽高,计算动画及显示位置的偏移量
+     *
+     * @param startBounds
+     * @param finalBounds
+     * @param ratio
+     */
+    private void calculateLocationRect(Rect startBounds, Rect finalBounds, float ratio) {
+        if ((float) finalBounds.width() / finalBounds.height() > (float) startBounds.width() / startBounds.height()) {
+            float startWidth = ratio * finalBounds.width();
+            float deltaWidth = (startWidth - startBounds.width()) / 2;
+            startBounds.left -= deltaWidth;
+            startBounds.right += deltaWidth;
+            return;
+        }
+        float startHeight = ratio * finalBounds.height();
+        float deltaHeight = (startHeight - startBounds.height()) / 2;
+        startBounds.top -= deltaHeight;
+        startBounds.bottom += deltaHeight;
+        float startWidth = ratio * finalBounds.width();
+        float deltaWidth = (startWidth - startBounds.width()) / 2;
+        //根据图片所在位置计算位置偏移量
+        if (mRow > 1 && LocationUtils.isRight(mCurrentItem, mRow)) {
+            startBounds.left -= startWidth - startBounds.width();
+        } else if (!LocationUtils.isRight(mCurrentItem, mRow) && !LocationUtils.isLeft(mCurrentItem, mRow) || 3 == 1) {
+            startBounds.left -= deltaWidth;
+            startBounds.right += deltaWidth;
+        }
+    }
+
+
+    /**
+     * 获取隐藏缩放比
+     *
+     * @param info
+     * @param endBounds
+     */
+    private float getHideRatio(Rect endBounds, ImageSizeInfo info) {
+        float ratio;
+        //可能出现图片未加载完毕,拿不到图片宽高数据的情况,此时默认拿外层ViewGroup的宽高,保证基本的效果即可
+        if (info == null) {
+            info = new ImageSizeInfo();
+        }
+        if (info.getWidth() == 0 || info.getHeight() == 0) {
+            info.setWidth(binding.flyLayout.getWidth());
+            info.setHeight(binding.flyLayout.getHeight());
+        }
+        //根据图片显示的尺寸计算,隐藏时的缩放比例
+        //为保证缩放效果,以图片宽、高中,以参数小的为计算基准
+        float scale = (float) screenWidth / info.getWidth();
+        if (info.getWidth() > info.getHeight()) {
+            ratio = RatioUtils.getHeightRatio(info, endBounds, scale);
+            //如果计算的缩放的最终宽度,要小于RecyclerView中item宽度
+            //则重新以图片高度为基准,进行计算
+            if (ratio * info.getWidth() * scale < endBounds.width()) {
+                ratio = RatioUtils.getWidthRatio(info, endBounds, scale);
+            }
+            return ratio;
+        }
+        ratio = RatioUtils.getWidthRatio(info, endBounds, scale);
+        //如果计算的缩放的最终高度,要小于RecyclerView中item高度
+        //则重新以图片宽度为基准,进行计算
+        if (ratio * info.getHeight() * scale < endBounds.height()) {
+            ratio = RatioUtils.getHeightRatio(info, endBounds, scale);
+        }
+        return ratio;
+    }
+
+
+    /**
+     * ViewPage滑动监听
+     */
+    private ViewPager.OnPageChangeListener changeAdapter = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            if (position >= shadowListAdapter.size() || position == mCurrentItem) {
+                return;
+            }
+            mCurrentItem = position;
+            //因实现图片归位的动画效果,需要先测量View在屏幕中的坐标,所以需要保证RecyclerView中的item必须显示在屏幕中
+            //所以图片预览切换图片时,需要同时滑动RecyclerView
+            GridLayoutManager layoutManager = (GridLayoutManager) binding.rvView.getLayoutManager();
+            layoutManager.scrollToPositionWithOffset(position, 0);
+        }
+    };
 
     @Override
     public void onBackPressed() {
         if (binding.flyLayout.getVisibility() == View.VISIBLE) {
-            doHidePhotos();
+            actionHide.call(null);
             return;
         }
         super.onBackPressed();

@@ -73,12 +73,8 @@ public class SystemUtil {
      * @param activity
      */
     @TargetApi(19)
-    public static void setStatusDrawable(Activity activity, Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-        setStatusColor(activity, drawable);
+    public static SystemBarTintManager setStatusDrawable(Activity activity, Drawable drawable) {
+        return setStatusColor(activity, drawable);
     }
 
 
@@ -89,8 +85,8 @@ public class SystemUtil {
      * @param drawable
      */
     @TargetApi(19)
-    public static void setStatusColor(Activity activity, Drawable drawable) {
-        SystemBarTintManager tintManager;
+    public static SystemBarTintManager setStatusColor(Activity activity, Drawable drawable) {
+        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -99,5 +95,6 @@ public class SystemUtil {
             tintManager.setStatusBarTintDrawable(drawable);
             tintManager.setStatusBarTintEnabled(true);
         }
+        return tintManager;
     }
 }

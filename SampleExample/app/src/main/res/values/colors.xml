@@ -6,4 +6,5 @@
     <color name="line_bg">#616060</color>
     <color name="pressed_true">#bfbfbf</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>
